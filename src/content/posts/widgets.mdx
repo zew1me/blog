@@ -1,0 +1,45 @@
+---
+title: 'Widgets in posts'
+description: 'When a post needs something the reader can move, and how that gets wired in.'
+pubDate: 2026-08-16
+tags: ['meta', 'astro']
+aliases: ['interactive', 'islands']
+---
+
+import DecayCurve from '@/widgets/DecayCurve.tsx';
+
+Most posts are prose. Occasionally a post needs something the reader can
+actually move, and a static diagram won't do it. That's what this file is for —
+it's an `.mdx` post, and it hydrates a React component.
+
+## The rule
+
+A post is `.md` until it needs to import a component. Then it becomes `.mdx`.
+That's the entire decision.
+
+This matters more than it sounds, because Astro's `client:*` directives **only
+work on components imported directly into an `.mdx` file**. They do nothing in
+plain `.md`. So callouts and similar prose furniture can never be React — they
+have to be plain HTML from a remark plugin, which is exactly how
+[[hello-world]] renders its callouts.
+
+## An actual widget
+
+<DecayCurve client:visible />
+
+That's a React island. It ships its JavaScript only on this page, and only once
+it scrolls into view. Every `.md` post on this site still ships zero JS.
+
+:::tip{title="Prefer build-time"}
+For a chart that doesn't move, generate the SVG in an `.astro` component
+instead. It ships nothing, renders instantly, and prints properly. Reach for an
+island only when the reader manipulates something — as with the slider above.
+:::
+
+## Choosing a directive
+
+- `client:visible` — the default. Hydrates on scroll.
+- `client:idle` — for widgets above the fold.
+- `client:load` — only when it must be live immediately.
+
+Anything heavier than it needs to be is just tax on the reader.

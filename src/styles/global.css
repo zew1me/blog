@@ -1,141 +1,303 @@
+@import 'tailwindcss';
+@plugin "@tailwindcss/typography";
+
 /*
-  The CSS in this style tag is based off of Bear Blog's default CSS.
-  https://github.com/HermanMartinus/bearblog/blob/297026a877bc2ab2b3bdfbd6b9f7961c350917dd/templates/styles/blog/default.css
-  License MIT: https://github.com/HermanMartinus/bearblog/blob/master/LICENSE.md
+ * Dark mode is driven by `data-theme="dark"` on <html>, set before first paint
+ * by the inline script in BaseHead.astro. See DESIGN-SYSTEM.md.
  */
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
 
-:root {
-	--accent: #2337ff;
-	--accent-dark: #000d8a;
-	--black: 15, 18, 25;
-	--gray: 96, 115, 159;
-	--gray-light: 229, 233, 240;
-	--gray-dark: 34, 41, 57;
-	--gray-gradient: rgba(var(--gray-light), 50%), #fff;
-	--box-shadow:
-		0 2px 6px rgba(var(--gray), 25%), 0 8px 24px rgba(var(--gray), 33%),
-		0 16px 32px rgba(var(--gray), 33%);
+/* =========================================================================
+   Design tokens. Everything visual goes through these — never hardcode a hex
+   or a font size in a component. DESIGN-SYSTEM.md is the contract.
+   ========================================================================= */
+@theme {
+	/* Typeface. --font-atkinson is emitted by Astro's `fonts` config. */
+	--font-sans: var(--font-atkinson), ui-sans-serif, system-ui, sans-serif;
+	--font-mono: ui-monospace, 'SF Mono', 'Cascadia Code', Menlo, monospace;
+
+	/* Fluid type scale, ~1.25 ratio. step-0 is body copy. */
+	--text-step--1: clamp(0.875rem, 0.84rem + 0.17vw, 0.95rem);
+	--text-step-0: clamp(1.0625rem, 1.02rem + 0.22vw, 1.1875rem);
+	--text-step-1: clamp(1.33rem, 1.26rem + 0.33vw, 1.5rem);
+	--text-step-2: clamp(1.66rem, 1.54rem + 0.6vw, 2rem);
+	--text-step-3: clamp(2.07rem, 1.86rem + 1.05vw, 2.66rem);
+	--text-step-4: clamp(2.59rem, 2.22rem + 1.85vw, 3.55rem);
+
+	/* Measure. The single most load-bearing number in an editorial layout. */
+	--measure: 68ch;
+	--measure-wide: 82rem;
+
+	/* --- Light palette (default) --- */
+	--color-paper: oklch(99% 0.004 95);
+	--color-paper-sunk: oklch(96.5% 0.005 95);
+	--color-ink: oklch(24% 0.015 260);
+	--color-ink-muted: oklch(52% 0.02 260);
+	--color-ink-faint: oklch(68% 0.015 260);
+	--color-rule: oklch(90% 0.008 260);
+	--color-accent: oklch(52% 0.19 258);
+	--color-accent-soft: oklch(95% 0.03 258);
+	--color-warn: oklch(58% 0.16 55);
+	--color-warn-soft: oklch(96% 0.04 75);
+	--color-tip: oklch(56% 0.13 165);
+	--color-tip-soft: oklch(96% 0.035 165);
+
+	--radius-sm: 0.25rem;
+	--radius-md: 0.5rem;
 }
-body {
-	font-family: var(--font-atkinson);
-	margin: 0;
-	padding: 0;
-	text-align: left;
-	background: linear-gradient(var(--gray-gradient)) no-repeat;
-	background-size: 100% 600px;
-	word-wrap: break-word;
-	overflow-wrap: break-word;
-	color: rgb(var(--gray-dark));
-	font-size: 20px;
-	line-height: 1.7;
+
+/* --- Dark palette. Only the tokens that change are redefined. --- */
+[data-theme='dark'] {
+	--color-paper: oklch(18% 0.012 260);
+	--color-paper-sunk: oklch(22% 0.014 260);
+	--color-ink: oklch(92% 0.008 260);
+	--color-ink-muted: oklch(72% 0.015 260);
+	--color-ink-faint: oklch(56% 0.015 260);
+	--color-rule: oklch(32% 0.014 260);
+	--color-accent: oklch(76% 0.14 258);
+	--color-accent-soft: oklch(30% 0.05 258);
+	--color-warn: oklch(78% 0.13 70);
+	--color-warn-soft: oklch(30% 0.045 70);
+	--color-tip: oklch(76% 0.11 165);
+	--color-tip-soft: oklch(28% 0.04 165);
 }
-main {
-	width: 720px;
-	max-width: calc(100% - 2em);
-	margin: auto;
-	padding: 3em 1em;
-}
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-	margin: 0 0 0.5rem 0;
-	color: rgb(var(--black));
-	line-height: 1.2;
-}
-h1 {
-	font-size: 3.052em;
-}
-h2 {
-	font-size: 2.441em;
-}
-h3 {
-	font-size: 1.953em;
-}
-h4 {
-	font-size: 1.563em;
-}
-h5 {
-	font-size: 1.25em;
-}
-strong,
-b {
-	font-weight: 700;
-}
-a {
-	color: var(--accent);
-}
-a:hover {
-	color: var(--accent);
-}
-p {
-	margin-bottom: 1em;
-}
-.prose p {
-	margin-bottom: 2em;
-}
-textarea {
-	width: 100%;
-	font-size: 16px;
-}
-input {
-	font-size: 16px;
-}
-table {
-	width: 100%;
-}
-img {
-	max-width: 100%;
-	height: auto;
-	border-radius: 8px;
-}
-code {
-	padding: 2px 5px;
-	background-color: rgb(var(--gray-light));
-	border-radius: 2px;
-}
-pre {
-	padding: 1.5em;
-	border-radius: 8px;
-}
-pre > code {
-	all: unset;
-}
-blockquote {
-	border-left: 4px solid var(--accent);
-	padding: 0 0 0 20px;
-	margin: 0;
-	font-size: 1.333em;
-}
-hr {
-	border: none;
-	border-top: 1px solid rgb(var(--gray-light));
-}
-@media (max-width: 720px) {
+
+/* =========================================================================
+   Base
+   ========================================================================= */
+@layer base {
+	html {
+		/* Anchor links land below the sticky header. */
+		scroll-padding-top: 5rem;
+		-webkit-text-size-adjust: 100%;
+	}
+
 	body {
-		font-size: 18px;
+		background-color: var(--color-paper);
+		color: var(--color-ink);
+		font-family: var(--font-sans);
+		font-size: var(--text-step-0);
+		line-height: 1.65;
+		text-rendering: optimizeLegibility;
+		-webkit-font-smoothing: antialiased;
 	}
-	main {
-		padding: 1em;
+
+	:focus-visible {
+		outline: 2px solid var(--color-accent);
+		outline-offset: 2px;
+		border-radius: var(--radius-sm);
+	}
+
+	::selection {
+		background: var(--color-accent-soft);
+		color: var(--color-ink);
+	}
+
+	hr {
+		border: 0;
+		border-top: 1px solid var(--color-rule);
+	}
+
+	/* Respect the reader's motion preference. */
+	@media (prefers-reduced-motion: reduce) {
+		*,
+		*::before,
+		*::after {
+			animation-duration: 0.01ms !important;
+			animation-iteration-count: 1 !important;
+			transition-duration: 0.01ms !important;
+			scroll-behavior: auto !important;
+		}
 	}
 }
 
-.sr-only {
-	border: 0;
-	padding: 0;
-	margin: 0;
-	position: absolute !important;
-	height: 1px;
-	width: 1px;
-	overflow: hidden;
-	/* IE6, IE7 - a 0 height clip, off to the bottom right of the visible 1px box */
-	clip: rect(1px 1px 1px 1px);
-	/* maybe deprecated but we need to support legacy browsers */
-	clip: rect(1px, 1px, 1px, 1px);
-	/* modern browsers, clip-path works inwards from each corner */
-	clip-path: inset(50%);
-	/* added line to stop words getting smushed together (as they go onto separate lines and some screen readers do not understand line feeds as a space */
-	white-space: nowrap;
+/* =========================================================================
+   Components
+   ========================================================================= */
+@layer components {
+	/* --- Layout --------------------------------------------------------- */
+	.measure {
+		width: 100%;
+		max-width: var(--measure);
+		margin-inline: auto;
+		padding-inline: 1.25rem;
+	}
+
+	.skip-link {
+		position: absolute;
+		left: -9999px;
+		top: 0;
+		z-index: 100;
+		padding: 0.65rem 1rem;
+		background: var(--color-paper);
+		color: var(--color-ink);
+		border: 1px solid var(--color-rule);
+		border-radius: var(--radius-sm);
+	}
+	.skip-link:focus {
+		left: 1rem;
+		top: 1rem;
+	}
+
+	/* --- Prose ---------------------------------------------------------- */
+	.prose {
+		--tw-prose-body: var(--color-ink);
+		--tw-prose-headings: var(--color-ink);
+		--tw-prose-lead: var(--color-ink-muted);
+		--tw-prose-links: var(--color-accent);
+		--tw-prose-bold: var(--color-ink);
+		--tw-prose-counters: var(--color-ink-muted);
+		--tw-prose-bullets: var(--color-ink-faint);
+		--tw-prose-hr: var(--color-rule);
+		--tw-prose-quotes: var(--color-ink-muted);
+		--tw-prose-quote-borders: var(--color-accent);
+		--tw-prose-captions: var(--color-ink-muted);
+		--tw-prose-code: var(--color-ink);
+		--tw-prose-th-borders: var(--color-rule);
+		--tw-prose-td-borders: var(--color-rule);
+
+		max-width: none;
+		font-size: var(--text-step-0);
+		line-height: 1.7;
+	}
+
+	.prose :where(h2) {
+		font-size: var(--text-step-2);
+		line-height: 1.2;
+		letter-spacing: -0.015em;
+		margin-top: 2.25em;
+		margin-bottom: 0.6em;
+	}
+	.prose :where(h3) {
+		font-size: var(--text-step-1);
+		line-height: 1.3;
+		margin-top: 1.9em;
+		margin-bottom: 0.5em;
+	}
+	.prose :where(a) {
+		text-decoration-thickness: 1px;
+		text-underline-offset: 0.18em;
+	}
+	.prose :where(blockquote) {
+		font-style: normal;
+		border-inline-start-width: 2px;
+	}
+	.prose :where(img, video) {
+		border-radius: var(--radius-md);
+	}
+
+	/* Shiki emits both themes; swap which one is visible. */
+	.prose :where(pre) {
+		font-size: var(--text-step--1);
+		border: 1px solid var(--color-rule);
+		border-radius: var(--radius-md);
+		overflow-x: auto;
+	}
+	[data-theme='dark'] .astro-code,
+	[data-theme='dark'] .astro-code span {
+		color: var(--shiki-dark) !important;
+		background-color: var(--shiki-dark-bg) !important;
+		font-style: var(--shiki-dark-font-style) !important;
+		font-weight: var(--shiki-dark-font-weight) !important;
+		text-decoration: var(--shiki-dark-text-decoration) !important;
+	}
+
+	/* --- Wikilinks ------------------------------------------------------ */
+	.wikilink {
+		text-decoration-style: dotted;
+		text-underline-offset: 0.18em;
+	}
+
+	/* A broken link is visible but not clickable — it should nag, not break. */
+	.wikilink-missing {
+		color: var(--color-ink-faint);
+		text-decoration: underline dotted;
+		text-decoration-color: var(--color-warn);
+		text-underline-offset: 0.18em;
+		cursor: help;
+	}
+
+	/* --- Callouts (must stay pure CSS — used from plain .md) ------------- */
+	.callout {
+		margin-block: 1.75em;
+		padding: 1rem 1.15rem;
+		border-inline-start: 3px solid var(--color-accent);
+		border-radius: var(--radius-sm);
+		background: var(--color-accent-soft);
+		font-size: var(--text-step--1);
+		line-height: 1.6;
+	}
+	.callout > :first-child {
+		margin-top: 0;
+	}
+	.callout > :last-child {
+		margin-bottom: 0;
+	}
+	.callout-title {
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
+		margin-bottom: 0.4em;
+		font-weight: 700;
+		letter-spacing: 0.01em;
+		color: var(--color-accent);
+	}
+	.callout-icon {
+		font-size: 0.7em;
+		line-height: 1;
+	}
+	.callout-warn {
+		border-color: var(--color-warn);
+		background: var(--color-warn-soft);
+	}
+	.callout-warn .callout-title {
+		color: var(--color-warn);
+	}
+	.callout-tip {
+		border-color: var(--color-tip);
+		background: var(--color-tip-soft);
+	}
+	.callout-tip .callout-title {
+		color: var(--color-tip);
+	}
+
+	/* --- Widgets -------------------------------------------------------- */
+	.widget {
+		margin-block: 2rem;
+		padding: 1rem;
+		border: 1px solid var(--color-rule);
+		border-radius: var(--radius-md);
+		background: var(--color-paper-sunk);
+	}
+	.widget svg {
+		display: block;
+		width: 100%;
+		height: auto;
+	}
+	.widget .controls {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		gap: 0.5rem 1rem;
+		margin-top: 0.9rem;
+		font-size: var(--text-step--1);
+		color: var(--color-ink-muted);
+	}
+	.widget .controls input[type='range'] {
+		flex: 1 1 12rem;
+		accent-color: var(--color-accent);
+	}
+	.widget figcaption {
+		margin-top: 0.6rem;
+		font-size: var(--text-step--1);
+		color: var(--color-ink-faint);
+	}
+
+	/* --- Small type ----------------------------------------------------- */
+	.eyebrow {
+		font-size: var(--text-step--1);
+		text-transform: uppercase;
+		letter-spacing: 0.09em;
+		color: var(--color-ink-faint);
+	}
 }

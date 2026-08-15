@@ -1,0 +1,64 @@
+---
+import PostListItem from '../../components/PostListItem.astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getPublishedPosts, groupByYear } from '../../lib/content.ts';
+
+const posts = await getPublishedPosts();
+const years = groupByYear(posts);
+const count = posts.length;
+---
+
+<BaseLayout
+	title="Posts"
+	description={`All ${count} post${count === 1 ? '' : 's'}, newest first.`}
+>
+	<div class="measure">
+		<header class="page-header">
+			<h1>Posts</h1>
+			<p class="count">{count} post{count === 1 ? '' : 's'}</p>
+		</header>
+
+		{
+			years.map((group) => (
+				<section class="year">
+					<h2 class="eyebrow">{group.year}</h2>
+					{group.posts.map((post) => (
+						<PostListItem post={post} />
+					))}
+				</section>
+			))
+		}
+
+		{count === 0 && <p class="empty">No posts yet.</p>}
+	</div>
+</BaseLayout>
+
+<style>
+	.page-header {
+		margin-bottom: 2rem;
+	}
+
+	h1 {
+		margin: 0 0 0.25rem;
+		font-size: var(--text-step-3);
+		line-height: 1.15;
+		letter-spacing: -0.02em;
+	}
+
+	.count {
+		margin: 0;
+		font-size: var(--text-step--1);
+		color: var(--color-ink-faint);
+	}
+
+	.year {
+		margin-top: 2.5rem;
+	}
+	.year > h2 {
+		margin: 0 0 0.25rem;
+	}
+
+	.empty {
+		color: var(--color-ink-muted);
+	}
+</style>

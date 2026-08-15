@@ -1,0 +1,60 @@
+---
+// Vanilla, not React. The theme toggle must work on every page including
+// plain .md posts, and it is nowhere near complex enough to justify shipping
+// a framework runtime for it.
+---
+
+<button
+	type="button"
+	class="theme-toggle"
+	data-theme-toggle
+	aria-label="Switch colour theme"
+	title="Switch colour theme"
+>
+	<span class="theme-toggle-icon" data-icon-light aria-hidden="true">☀</span>
+	<span class="theme-toggle-icon" data-icon-dark aria-hidden="true">☾</span>
+</button>
+
+<style>
+	.theme-toggle {
+		display: inline-grid;
+		place-items: center;
+		width: 2rem;
+		height: 2rem;
+		padding: 0;
+		border: 1px solid var(--color-rule);
+		border-radius: var(--radius-sm);
+		background: transparent;
+		color: var(--color-ink-muted);
+		cursor: pointer;
+		line-height: 1;
+	}
+	.theme-toggle:hover {
+		color: var(--color-ink);
+		border-color: var(--color-ink-faint);
+	}
+	/* Both icons occupy the same cell so the button never changes size. */
+	.theme-toggle-icon {
+		grid-area: 1 / 1;
+		font-size: 0.95rem;
+	}
+	:global([data-theme='light']) .theme-toggle [data-icon-dark],
+	:global([data-theme='dark']) .theme-toggle [data-icon-light] {
+		display: none;
+	}
+</style>
+
+<script>
+	const toggle = document.querySelector<HTMLButtonElement>('[data-theme-toggle]');
+
+	toggle?.addEventListener('click', () => {
+		const root = document.documentElement;
+		const next = root.dataset.theme === 'dark' ? 'light' : 'dark';
+		root.dataset.theme = next;
+		try {
+			localStorage.setItem('theme', next);
+		} catch {
+			// Storage unavailable — the toggle still works for this page view.
+		}
+	});
+</script>

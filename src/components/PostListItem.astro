@@ -1,0 +1,109 @@
+---
+import type { Post } from '../lib/content.ts';
+import { postHref } from '../lib/resolve-link.ts';
+import FormattedDate from './FormattedDate.astro';
+
+interface Props {
+	post: Post;
+	/** Larger treatment for the lead post on the homepage. */
+	featured?: boolean;
+}
+
+const { post, featured = false } = Astro.props;
+const { title, description, pubDate, tags, draft } = post.data;
+---
+
+<article class:list={['post-item', { featured }]}>
+	<h2>
+		<a href={postHref(post.id)}>{title}</a>
+		{draft && <span class="draft-badge">draft</span>}
+	</h2>
+
+	<p class="dek">{description}</p>
+
+	<p class="meta">
+		<FormattedDate date={pubDate} />
+		{
+			tags.length > 0 && (
+				<>
+					<span aria-hidden="true">·</span>
+					<span class="tags">
+						{tags.map((tag) => (
+							<a href={`/tags/${tag}/`}>{tag}</a>
+						))}
+					</span>
+				</>
+			)
+		}
+	</p>
+</article>
+
+<style>
+	.post-item {
+		padding-block: 1.4rem;
+		border-bottom: 1px solid var(--color-rule);
+	}
+
+	h2 {
+		margin: 0 0 0.3rem;
+		font-size: var(--text-step-1);
+		line-height: 1.25;
+		letter-spacing: -0.015em;
+	}
+	.featured h2 {
+		font-size: var(--text-step-3);
+	}
+
+	h2 a {
+		color: var(--color-ink);
+		text-decoration: none;
+	}
+	h2 a:hover {
+		text-decoration: underline;
+		text-decoration-thickness: 1px;
+		text-underline-offset: 0.15em;
+	}
+
+	.dek {
+		margin: 0 0 0.5rem;
+		color: var(--color-ink-muted);
+		line-height: 1.55;
+	}
+	.featured .dek {
+		font-size: var(--text-step-1);
+	}
+
+	.meta {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.5rem;
+		margin: 0;
+		font-size: var(--text-step--1);
+		color: var(--color-ink-faint);
+	}
+
+	.tags {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.5rem;
+	}
+	.tags a {
+		color: inherit;
+		text-decoration-color: var(--color-rule);
+		text-underline-offset: 0.15em;
+	}
+	.tags a:hover {
+		color: var(--color-accent);
+	}
+
+	.draft-badge {
+		margin-inline-start: 0.5rem;
+		padding: 0.1em 0.45em;
+		border: 1px solid var(--color-warn);
+		border-radius: var(--radius-sm);
+		font-size: var(--text-step--1);
+		font-weight: 400;
+		color: var(--color-warn);
+		vertical-align: middle;
+	}
+</style>

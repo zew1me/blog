@@ -1,0 +1,32 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="Not found" description="That page doesn't exist.">
+	<div class="measure">
+		<p class="eyebrow">404</p>
+		<h1>Not found</h1>
+		<p class="body">
+			That page doesn't exist. Try the <a href="/posts/">archive</a>, or
+			<a href="/search/">search</a>.
+		</p>
+	</div>
+</BaseLayout>
+
+<style>
+	h1 {
+		margin: 0.15rem 0 0.75rem;
+		font-size: var(--text-step-3);
+		line-height: 1.15;
+		letter-spacing: -0.02em;
+	}
+
+	.body {
+		margin: 0;
+		color: var(--color-ink-muted);
+	}
+	.body a {
+		color: var(--color-accent);
+		text-underline-offset: 0.18em;
+	}
+</style>

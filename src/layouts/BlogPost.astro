@@ -1,86 +1,135 @@
 ---
 import { Image } from 'astro:assets';
-import type { CollectionEntry } from 'astro:content';
-import BaseHead from '../components/BaseHead.astro';
-import Footer from '../components/Footer.astro';
+import Backlinks from '../components/Backlinks.astro';
 import FormattedDate from '../components/FormattedDate.astro';
-import Header from '../components/Header.astro';
+import type { Post } from '../lib/content.ts';
+import BaseLayout from './BaseLayout.astro';
 
-type Props = CollectionEntry<'blog'>['data'];
+interface Props {
+	post: Post;
+}
 
-const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
+const { post } = Astro.props;
+const { title, description, pubDate, updatedDate, heroImage, tags, draft } = post.data;
 ---
 
-<html lang="en">
-	<head>
-		<BaseHead title={title} description={description} />
-		<style>
-			main {
-				width: calc(100% - 2em);
-				max-width: 100%;
-				margin: 0;
-			}
-			.hero-image {
-				width: 100%;
-			}
-			.hero-image img {
-				display: block;
-				margin: 0 auto;
-				border-radius: 12px;
-				box-shadow: var(--box-shadow);
-			}
-			.prose {
-				width: 720px;
-				max-width: calc(100% - 2em);
-				margin: auto;
-				padding: 1em;
-				color: rgb(var(--gray-dark));
-			}
-			.title {
-				margin-bottom: 1em;
-				padding: 1em 0;
-				text-align: center;
-				line-height: 1;
-			}
-			.title h1 {
-				margin: 0 0 0.5em 0;
-			}
-			.date {
-				margin-bottom: 0.5em;
-				color: rgb(var(--gray));
-			}
-			.last-updated-on {
-				font-style: italic;
-			}
-		</style>
-	</head>
+<BaseLayout
+	title={title}
+	description={description}
+	image={heroImage}
+	article={{ publishedTime: pubDate, modifiedTime: updatedDate, tags: [...tags] }}
+>
+	<article class="measure">
+		<header class="post-header">
+			{draft && <p class="draft-notice">Draft — not published. Visible in dev only.</p>}
 
-	<body>
-		<Header />
-		<main>
-			<article>
-				<div class="hero-image">
-					{heroImage && <Image width={1020} height={510} src={heroImage} alt="" />}
-				</div>
-				<div class="prose">
-					<div class="title">
-						<div class="date">
-							<FormattedDate date={pubDate} />
-							{
-								updatedDate && (
-									<div class="last-updated-on">
-										Last updated on <FormattedDate date={updatedDate} />
-									</div>
-								)
-							}
-						</div>
-						<h1>{title}</h1>
-						<hr />
-					</div>
-					<slot />
-				</div>
-			</article>
-		</main>
-		<Footer />
-	</body>
-</html>
+			<h1>{title}</h1>
+			<p class="dek">{description}</p>
+
+			<p class="meta">
+				<FormattedDate date={pubDate} format="long" />
+				{updatedDate && (
+					<span>
+						· updated <FormattedDate date={updatedDate} format="long" />
+					</span>
+				)}
+			</p>
+
+			{
+				tags.length > 0 && (
+					<ul class="tags" aria-label="Tags">
+						{tags.map((tag) => (
+							<li>
+								<a href={`/tags/${tag}/`}>{tag}</a>
+							</li>
+						))}
+					</ul>
+				)
+			}
+		</header>
+
+		{
+			heroImage && (
+				<figure class="hero">
+					<Image src={heroImage} alt="" widths={[640, 960, 1280]} loading="eager" />
+				</figure>
+			)
+		}
+
+		{/* data-pagefind-body scopes the search index to real post prose.
+		    Without it Pagefind would index nav, footer, and backlinks too. */}
+		<div class="prose" data-pagefind-body>
+			<slot />
+		</div>
+
+		<Backlinks id={post.id} />
+	</article>
+</BaseLayout>
+
+<style>
+	.post-header {
+		margin-bottom: 2.5rem;
+	}
+
+	h1 {
+		margin: 0 0 0.5rem;
+		font-size: var(--text-step-4);
+		line-height: 1.1;
+		letter-spacing: -0.025em;
+		text-wrap: balance;
+	}
+
+	.dek {
+		margin: 0 0 0.9rem;
+		font-size: var(--text-step-1);
+		line-height: 1.45;
+		color: var(--color-ink-muted);
+		text-wrap: pretty;
+	}
+
+	.meta {
+		margin: 0;
+		font-size: var(--text-step--1);
+		color: var(--color-ink-faint);
+	}
+
+	.tags {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.5rem;
+		margin: 0.75rem 0 0;
+		padding: 0;
+		list-style: none;
+		font-size: var(--text-step--1);
+	}
+	.tags a {
+		display: inline-block;
+		padding: 0.15em 0.6em;
+		border: 1px solid var(--color-rule);
+		border-radius: 999px;
+		color: var(--color-ink-muted);
+		text-decoration: none;
+	}
+	.tags a:hover {
+		border-color: var(--color-accent);
+		color: var(--color-accent);
+	}
+
+	.hero {
+		margin: 0 0 2.5rem;
+	}
+	.hero :global(img) {
+		width: 100%;
+		height: auto;
+		border-radius: var(--radius-md);
+	}
+
+	.draft-notice {
+		margin: 0 0 1rem;
+		padding: 0.5rem 0.85rem;
+		border: 1px dashed var(--color-warn);
+		border-radius: var(--radius-sm);
+		font-size: var(--text-step--1);
+		color: var(--color-warn);
+	}
+</style>

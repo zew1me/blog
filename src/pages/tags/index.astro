@@ -1,0 +1,84 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getTagCounts } from '../../lib/content.ts';
+
+const tags = await getTagCounts();
+---
+
+<BaseLayout title="Tags" description="Browse posts by topic.">
+	<div class="measure">
+		<header class="page-header">
+			<h1>Tags</h1>
+			<p class="count">{tags.length} tag{tags.length === 1 ? '' : 's'}</p>
+		</header>
+
+		{
+			tags.length > 0 ? (
+				<ul class="tag-list">
+					{tags.map(({ tag, count }) => (
+						<li>
+							<a href={`/tags/${tag}/`}>
+								{tag}
+								<span class="n">{count}</span>
+							</a>
+						</li>
+					))}
+				</ul>
+			) : (
+				<p class="empty">No tags yet.</p>
+			)
+		}
+	</div>
+</BaseLayout>
+
+<style>
+	.page-header {
+		margin-bottom: 2rem;
+	}
+
+	h1 {
+		margin: 0 0 0.25rem;
+		font-size: var(--text-step-3);
+		line-height: 1.15;
+		letter-spacing: -0.02em;
+	}
+
+	.count {
+		margin: 0;
+		font-size: var(--text-step--1);
+		color: var(--color-ink-faint);
+	}
+
+	.tag-list {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.6rem;
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	}
+
+	.tag-list a {
+		display: inline-flex;
+		align-items: baseline;
+		gap: 0.45rem;
+		padding: 0.3em 0.75em;
+		border: 1px solid var(--color-rule);
+		border-radius: 999px;
+		color: var(--color-ink);
+		text-decoration: none;
+	}
+	.tag-list a:hover {
+		border-color: var(--color-accent);
+		color: var(--color-accent);
+	}
+
+	.n {
+		font-size: var(--text-step--1);
+		color: var(--color-ink-faint);
+	}
+
+	.empty {
+		color: var(--color-ink-muted);
+	}
+</style>

@@ -1,0 +1,70 @@
+---
+import { getBacklinks } from '../lib/backlinks.ts';
+
+interface Props {
+	/** Entry id of the post being viewed. */
+	id: string;
+}
+
+const links = await getBacklinks(Astro.props.id);
+---
+
+{
+	links.length > 0 && (
+		/* data-pagefind-ignore: these are other posts' titles. Indexing them
+		   here would make every backlinked post a false hit for this page. */
+		<aside class="backlinks" aria-labelledby="backlinks-heading" data-pagefind-ignore>
+			<h2 id="backlinks-heading" class="eyebrow">
+				Linked from
+			</h2>
+			<ul>
+				{links.map((link) => (
+					<li>
+						<a href={link.href}>{link.title}</a>
+						<span class="dek">{link.description}</span>
+					</li>
+				))}
+			</ul>
+		</aside>
+	)
+}
+
+<style>
+	.backlinks {
+		margin-top: 3.5rem;
+		padding-top: 1.5rem;
+		border-top: 1px solid var(--color-rule);
+	}
+
+	h2 {
+		margin: 0 0 0.9rem;
+	}
+
+	ul {
+		display: grid;
+		gap: 0.9rem;
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	}
+
+	li {
+		display: grid;
+		gap: 0.15rem;
+	}
+
+	a {
+		color: var(--color-ink);
+		text-decoration-color: var(--color-ink-faint);
+		text-underline-offset: 0.18em;
+	}
+	a:hover {
+		color: var(--color-accent);
+	}
+
+	.dek {
+		font-size: var(--text-step--1);
+		color: var(--color-ink-muted);
+		line-height: 1.5;
+	}
+</style>

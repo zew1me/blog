@@ -1,77 +1,153 @@
-# Astro Starter Kit: Blog
+# blog.nigels.dev
+
+Nigel's blog. Plain Markdown in Git, built by [Astro](https://astro.build),
+deployed to Vercel. Committing to `main` publishes to production.
+
+- **What the site does** — [SPEC.md](./SPEC.md)
+- **How it's built** — [ARCHITECTURE.md](./ARCHITECTURE.md)
+- **Visual tokens** — [DESIGN-SYSTEM.md](./DESIGN-SYSTEM.md)
+- **Repo conventions** — [CLAUDE.md](./CLAUDE.md)
+
+## Running it
 
 ```sh
-npm create astro@latest -- --template blog
+pnpm install
+pnpm dev          # http://localhost:4321
 ```
 
-<!-- ASTRO:REMOVE:START -->
+| Command | Does |
+| --- | --- |
+| `pnpm dev` | Dev server. Drafts visible. **Search does not work.** |
+| `pnpm build` | Production build + search index |
+| `pnpm preview` | Serve the build. The only way to test search. |
+| `pnpm check` | Type-check everything |
+| `pnpm clean` | Drop build and content caches |
 
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/withastro/astro/tree/latest/examples/blog)
-[![Open with CodeSandbox](https://assets.codesandbox.io/github/button-edit-lime.svg)](https://codesandbox.io/p/sandbox/github/withastro/astro/tree/latest/examples/blog)
-[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/withastro/astro?devcontainer_path=.devcontainer/blog/devcontainer.json)
+---
 
-<!-- ASTRO:REMOVE:END -->
+## Adding a post
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+Create `src/content/posts/my-post.md`. The filename becomes the URL:
+`/posts/my-post/`.
 
-<!-- ASTRO:REMOVE:START -->
+```md
+---
+title: 'The post title'
+description: 'One sentence. Shows in listings, search, RSS, and link previews.'
+pubDate: 2026-08-15
+tags: ['ai', 'agents']
+draft: true
+---
 
-![blog](https://github.com/withastro/astro/assets/2244813/ff10799f-a816-4703-b967-c78997e8323d)
-
-<!-- ASTRO:REMOVE:END -->
-
-Features:
-
-- ✅ Minimal styling (make it your own!)
-- ✅ 100/100 Lighthouse performance
-- ✅ SEO-friendly with canonical URLs and Open Graph data
-- ✅ Sitemap support
-- ✅ RSS Feed support
-- ✅ Markdown & MDX support
-
-## 🚀 Project Structure
-
-Inside of your Astro project, you'll see the following folders and files:
-
-```text
-├── public/
-├── src/
-│   ├── assets/
-│   ├── components/
-│   ├── content/
-│   ├── layouts/
-│   └── pages/
-├── astro.config.mjs
-├── README.md
-├── package.json
-└── tsconfig.json
+Your prose starts here.
 ```
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+Delete `draft: true` when it's ready. That's the whole publishing flow.
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+### Frontmatter
 
-The `src/content/` directory contains "collections" of related Markdown and MDX documents. Use `getCollection()` to retrieve posts from `src/content/blog/`, and type-check your frontmatter using an optional schema. See [Astro's Content Collections docs](https://docs.astro.build/en/guides/content-collections/) to learn more.
+| Field | Required | Notes |
+| --- | --- | --- |
+| `title` | **yes** | Also a wikilink target |
+| `description` | **yes** | One sentence, no markdown |
+| `pubDate` | **yes** | `YYYY-MM-DD`. Interpreted as UTC |
+| `updatedDate` | no | Only when materially revising something published |
+| `tags` | no | Lowercase, kebab-case, flat. Defaults to `[]` |
+| `draft` | no | `true` hides it from production. Defaults to `false` |
+| `aliases` | no | Extra names wikilinks can use to reach this post |
+| `heroImage` | no | Path relative to the `.md` file. Most posts skip it |
 
-Any static assets, like images, can be placed in the `public/` directory.
+The build **fails** if `title`, `description`, or `pubDate` is missing or
+malformed. That's deliberate — those three drive listings, RSS, and SEO.
 
-## 🧞 Commands
+---
 
-All commands are run from the root of the project, from a terminal:
+## Writing
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
+### Linking between posts
 
-## 👀 Want to learn more?
+```md
+See [[hello-world]] for the conventions.
+See [[hello-world|the intro post]] to change the link text.
+```
 
-Check out [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+A link matches, in order: the target's **filename**, then its **aliases**,
+then its **title**. Matching ignores case and treats spaces, hyphens, and
+underscores as equivalent — so `[[Hello World]]` finds `hello-world.md`.
 
-## Credit
+The target post automatically grows a **"Linked from"** panel. Nothing to
+maintain by hand.
 
-This theme is based off of the lovely [Bear Blog](https://github.com/HermanMartinus/bearblog/).
+A link that matches nothing renders as greyed-out non-link text and logs a
+build warning. **It will not fail the build** — a typo in prose shouldn't
+block a deploy. Watch the build log.
+
+> Warnings only appear for posts that actually got re-rendered. Astro caches
+> unchanged Markdown, so run `pnpm clean` first to see every warning at once.
+
+### Callouts
+
+Work in plain `.md`:
+
+```md
+:::note
+Standard aside.
+:::
+
+:::tip{title="Custom heading"}
+The `title` attribute is optional.
+:::
+
+:::warn
+For things that will bite you.
+:::
+```
+
+### Everything else
+
+GitHub-Flavored Markdown: tables, task lists, strikethrough, footnotes,
+autolinks, and fenced code blocks with syntax highlighting in both themes.
+
+---
+
+## Adding an interactive widget
+
+**A post must be `.mdx` to hold a component.** Astro's `client:*` directives do
+nothing in `.md` — that's a framework constraint, not a preference.
+
+1. Rename `my-post.md` → `my-post.mdx`
+2. Import the component and hydrate it:
+
+```mdx
+---
+title: 'A post with a widget'
+description: '…'
+pubDate: 2026-08-15
+---
+
+import DecayCurve from '@/widgets/DecayCurve.tsx';
+
+Prose before.
+
+<DecayCurve client:visible />
+
+Prose after.
+```
+
+`src/content/posts/widgets.mdx` is a working example. See
+[`src/widgets/README.md`](./src/widgets/README.md) before building a new one —
+particularly the part about preferring build-time SVG over shipping a chart
+library.
+
+---
+
+## Publishing
+
+```sh
+pnpm build      # must pass
+git add -A && git commit -m "post: the post title"
+git push
+```
+
+Vercel builds and deploys `main` straight to production. There is no preview
+or staging environment, so **`pnpm build` passing locally is the only gate.**

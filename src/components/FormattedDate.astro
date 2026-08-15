@@ -1,17 +1,20 @@
 ---
 interface Props {
 	date: Date;
+	/** `short` -> "15 Aug 2026" (listings). `long` -> "15 August 2026". */
+	format?: 'short' | 'long';
 }
 
-const { date } = Astro.props;
+const { date, format = 'short' } = Astro.props;
+
+// UTC everywhere. Frontmatter dates have no timezone, so rendering them in the
+// build machine's local zone can shift a post by a day.
+const formatted = new Intl.DateTimeFormat('en-GB', {
+	year: 'numeric',
+	month: format === 'long' ? 'long' : 'short',
+	day: 'numeric',
+	timeZone: 'UTC',
+}).format(date);
 ---
 
-<time datetime={date.toISOString()}>
-	{
-		date.toLocaleDateString('en-us', {
-			year: 'numeric',
-			month: 'short',
-			day: 'numeric',
-		})
-	}
-</time>
+<time datetime={date.toISOString()}>{formatted}</time>

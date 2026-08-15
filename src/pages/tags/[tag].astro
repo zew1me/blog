@@ -1,0 +1,70 @@
+---
+import type { GetStaticPaths } from 'astro';
+import PostListItem from '../../components/PostListItem.astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getPublishedPosts } from '../../lib/content.ts';
+
+export const getStaticPaths = (async () => {
+	const posts = await getPublishedPosts();
+
+	// Build the tag -> posts map in one pass rather than re-filtering the whole
+	// collection once per tag.
+	const byTag = new Map<string, typeof posts>();
+	for (const post of posts) {
+		for (const tag of post.data.tags) {
+			const bucket = byTag.get(tag);
+			if (bucket) bucket.push(post);
+			else byTag.set(tag, [post]);
+		}
+	}
+
+	return [...byTag.entries()].map(([tag, tagged]) => ({
+		params: { tag },
+		props: { tag, posts: tagged },
+	}));
+}) satisfies GetStaticPaths;
+
+const { tag, posts } = Astro.props;
+---
+
+<BaseLayout
+	title={`#${tag}`}
+	description={`${posts.length} post${posts.length === 1 ? '' : 's'} tagged “${tag}”.`}
+>
+	<div class="measure">
+		<header class="page-header">
+			<p class="eyebrow">Tagged</p>
+			<h1>{tag}</h1>
+			<p class="count">
+				{posts.length} post{posts.length === 1 ? '' : 's'} · <a href="/tags/">all tags</a>
+			</p>
+		</header>
+
+		{posts.map((post) => <PostListItem post={post} />)}
+	</div>
+</BaseLayout>
+
+<style>
+	.page-header {
+		margin-bottom: 2rem;
+	}
+
+	h1 {
+		margin: 0.15rem 0 0.25rem;
+		font-size: var(--text-step-3);
+		line-height: 1.15;
+		letter-spacing: -0.02em;
+	}
+
+	.count {
+		margin: 0;
+		font-size: var(--text-step--1);
+		color: var(--color-ink-faint);
+	}
+	.count a {
+		color: inherit;
+	}
+	.count a:hover {
+		color: var(--color-accent);
+	}
+</style>
