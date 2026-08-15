@@ -34,6 +34,9 @@
     "astro": "astro"
   },
   "pnpm": {
+    "overrides": {
+      "astro-eslint-parser": "3.0.0"
+    },
     "peerDependencyRules": {
       "allowedVersions": {
         "eslint-plugin-jsx-a11y>eslint": ">=10"
