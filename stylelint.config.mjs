@@ -14,6 +14,7 @@ export default {
 			},
 		],
 		'custom-property-pattern': null,
+		'import-notation': 'string',
 		'no-descending-specificity': null,
 		'property-no-vendor-prefix': null,
 		'selector-pseudo-class-no-unknown': [true, { ignorePseudoClasses: ['global'] }],
