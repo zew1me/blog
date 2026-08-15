@@ -13,6 +13,7 @@
     "build": "astro build && pagefind --site dist",
     "preview": "astro preview",
     "check": "astro check",
+    "astro:sync": "astro sync",
     "check:islands": "test \"$(grep -c 'astro-island' dist/posts/hello-world/index.html)\" -eq 0 && test \"$(grep -c 'astro-island' dist/posts/widgets/index.html)\" -gt 0",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
@@ -27,7 +28,7 @@
     "ast-grep:check": "pnpm ast-grep:test && pnpm ast-grep",
     "duplicates": "jscpd --config .jscpd.json --no-tips",
     "secrets": "secretlint \"**/*\"",
-    "quality": "pnpm format:check && pnpm lint && pnpm check && pnpm knip && pnpm ast-grep:check && pnpm duplicates && pnpm secrets",
+    "quality": "pnpm astro:sync && pnpm format:check && pnpm lint && pnpm check && pnpm knip && pnpm ast-grep:check && pnpm duplicates && pnpm secrets",
     "verify": "pnpm quality && pnpm build && pnpm check:islands",
     "audit": "pnpm audit --audit-level high",
     "clean": "rm -rf dist .astro node_modules/.astro",
@@ -35,7 +36,8 @@
   },
   "pnpm": {
     "overrides": {
-      "astro-eslint-parser": "3.0.0"
+      "astro-eslint-parser": "3.0.0",
+      "rolldown": "1.2.3"
     },
     "peerDependencyRules": {
       "allowedVersions": {
@@ -46,7 +48,8 @@
       "@ast-grep/cli",
       "esbuild",
       "lefthook",
-      "sharp"
+      "sharp",
+      "unrs-resolver"
     ]
   },
   "dependencies": {
@@ -82,7 +85,7 @@
     "eslint-plugin-security": "^4.0.1",
     "eslint-plugin-sonarjs": "^4.2.0",
     "eslint-plugin-unicorn": "^73.0.0",
-    "jscpd": "^5.0.15",
+    "jscpd": "^5.0.14",
     "knip": "^6.32.2",
     "lefthook": "^2.1.10",
     "markdownlint-cli2": "^0.23.2",
