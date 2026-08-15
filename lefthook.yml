@@ -1,0 +1,29 @@
+# Pre-commit is a fast, staged-file autofix pass.
+# Pre-push is the blocking local equivalent of GitHub CI.
+pre-commit:
+  parallel: false
+  commands:
+    eslint-fix:
+      glob: '*.{js,mjs,cjs,ts,tsx,astro}'
+      run: pnpm exec eslint --fix --max-warnings 0 --no-warn-ignored {staged_files}
+      stage_fixed: true
+    stylelint-fix:
+      glob: '*.{css,astro}'
+      run: pnpm exec stylelint --fix {staged_files}
+      stage_fixed: true
+    markdownlint-fix:
+      glob: '*.md'
+      run: pnpm exec markdownlint-cli2 --fix {staged_files}
+      stage_fixed: true
+    prettier-write:
+      glob: '*.{astro,css,js,mjs,cjs,ts,tsx,json,jsonc,md,yaml,yml}'
+      run: pnpm exec prettier --write --ignore-unknown {staged_files}
+      stage_fixed: true
+
+pre-push:
+  parallel: false
+  commands:
+    verify:
+      run: pnpm verify
+    audit:
+      run: pnpm audit

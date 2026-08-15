@@ -1,0 +1,5 @@
+id: no-mutating-sort-in-react
+valid:
+  - 'const sorted = items.toSorted((a, b) => a.value - b.value);'
+invalid:
+  - 'const sorted = items.sort((a, b) => a.value - b.value);'

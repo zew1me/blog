@@ -1,0 +1,24 @@
+id: no-nested-react-components
+valid:
+  - |
+    function Avatar() {
+      return <img alt="" />;
+    }
+    function Profile() {
+      return <Avatar />;
+    }
+  - |
+    function Profile() {
+      function formatName() {
+        return "name";
+      }
+      return <p>{formatName()}</p>;
+    }
+invalid:
+  - |
+    function Profile() {
+      function Avatar() {
+        return <img alt="" />;
+      }
+      return <Avatar />;
+    }

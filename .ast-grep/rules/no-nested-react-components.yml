@@ -1,0 +1,15 @@
+id: no-nested-react-components
+language: Tsx
+severity: error
+message: Define React components at module scope, not inside another component.
+note: This prevents remounting on every render per Vercel's rerender-no-inline-components rule.
+files:
+  - src/widgets/**/*.tsx
+rule:
+  pattern: function $INNER($$$PARAMS) { $$$BODY }
+  inside:
+    kind: function_declaration
+    stopBy: end
+constraints:
+  INNER:
+    regex: ^[A-Z]

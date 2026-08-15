@@ -3,20 +3,46 @@
   "type": "module",
   "version": "0.0.1",
   "private": true,
+  "packageManager": "pnpm@10.18.3",
   "engines": {
     "node": ">=22.12.0"
   },
   "scripts": {
+    "prepare": "lefthook install",
     "dev": "astro dev",
     "build": "astro build && pagefind --site dist",
     "preview": "astro preview",
     "check": "astro check",
+    "check:islands": "test \"$(grep -c 'astro-island' dist/posts/hello-world/index.html)\" -eq 0 && test \"$(grep -c 'astro-island' dist/posts/widgets/index.html)\" -gt 0",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "lint": "pnpm lint:eslint && pnpm lint:styles && pnpm lint:markdown",
+    "lint:fix": "pnpm lint:eslint --fix && pnpm lint:styles --fix && pnpm lint:markdown --fix && pnpm format",
+    "lint:eslint": "eslint . --max-warnings 0",
+    "lint:styles": "stylelint \"src/**/*.{css,astro}\"",
+    "lint:markdown": "markdownlint-cli2 \"**/*.md\"",
+    "knip": "knip",
+    "ast-grep": "ast-grep scan --config sgconfig.yml --error",
+    "ast-grep:test": "ast-grep test --config sgconfig.yml",
+    "ast-grep:check": "pnpm ast-grep:test && pnpm ast-grep",
+    "duplicates": "jscpd --config .jscpd.json --no-tips",
+    "secrets": "secretlint \"**/*\"",
+    "quality": "pnpm format:check && pnpm lint && pnpm check && pnpm knip && pnpm ast-grep:check && pnpm duplicates && pnpm secrets",
+    "verify": "pnpm quality && pnpm build && pnpm check:islands",
+    "audit": "pnpm audit --audit-level high",
     "clean": "rm -rf dist .astro node_modules/.astro",
     "astro": "astro"
   },
   "pnpm": {
+    "peerDependencyRules": {
+      "allowedVersions": {
+        "eslint-plugin-jsx-a11y>eslint": ">=10"
+      }
+    },
     "onlyBuiltDependencies": [
+      "@ast-grep/cli",
       "esbuild",
+      "lefthook",
       "sharp"
     ]
   },
@@ -39,12 +65,35 @@
     "unist-util-visit": "^5.1.0"
   },
   "devDependencies": {
+    "@ast-grep/cli": "0.45.0",
     "@astrojs/check": "^0.9.10",
+    "@eslint/js": "^10.0.1",
+    "@secretlint/secretlint-rule-preset-recommend": "^13.0.4",
     "@types/mdast": "^4.0.4",
     "@types/react": "^19.2.18",
     "@types/react-dom": "^19.2.4",
     "@types/unist": "^3.0.3",
+    "eslint": "^10.8.1",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-astro": "^3.1.0",
+    "eslint-plugin-import-x": "^4.17.1",
+    "eslint-plugin-jsx-a11y": "^6.10.2",
+    "eslint-plugin-security": "^4.0.1",
+    "eslint-plugin-sonarjs": "^4.2.0",
+    "eslint-plugin-unicorn": "^73.0.0",
+    "globals": "^17.11.0",
+    "jscpd": "^5.0.15",
+    "knip": "^6.32.2",
+    "lefthook": "^2.1.10",
+    "markdownlint-cli2": "^0.23.2",
     "pagefind": "^1.5.2",
-    "typescript": "^6.0.3"
+    "postcss-html": "^2.0.0",
+    "prettier": "^3.9.6",
+    "prettier-plugin-astro": "^0.14.1",
+    "secretlint": "^13.0.4",
+    "stylelint": "^17.14.1",
+    "stylelint-config-standard": "^40.0.0",
+    "typescript": "^6.0.3",
+    "typescript-eslint": "^8.67.0"
   }
 }

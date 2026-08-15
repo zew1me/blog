@@ -1,0 +1,9 @@
+id: no-mutating-sort-in-react
+language: Tsx
+severity: error
+message: Use toSorted() in React code so props and state cannot be mutated accidentally.
+note: This enforces Vercel's react-best-practices js-tosorted-immutable rule.
+files:
+  - src/widgets/**/*.tsx
+rule:
+  pattern: $ARRAY.sort($$$ARGS)

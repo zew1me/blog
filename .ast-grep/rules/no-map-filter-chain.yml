@@ -1,0 +1,9 @@
+id: no-map-filter-chain
+language: Tsx
+severity: error
+message: Use flatMap() when transforming and filtering in one pass.
+note: This enforces Vercel's react-best-practices js-flatmap-filter rule in React islands.
+files:
+  - src/widgets/**/*.tsx
+rule:
+  pattern: $ARRAY.map($$$MAP_ARGS).filter($$$FILTER_ARGS)

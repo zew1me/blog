@@ -1,0 +1,27 @@
+id: no-nested-react-components
+snapshots:
+  ? |
+    function Profile() {
+      function Avatar() {
+        return <img alt="" />;
+      }
+      return <Avatar />;
+    }
+  : labels:
+      - source: |-
+          function Avatar() {
+              return <img alt="" />;
+            }
+        style: primary
+        start: 23
+        end: 73
+      - source: |-
+          function Profile() {
+            function Avatar() {
+              return <img alt="" />;
+            }
+            return <Avatar />;
+          }
+        style: secondary
+        start: 0
+        end: 96

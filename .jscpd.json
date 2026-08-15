@@ -1,0 +1,8 @@
+{
+  "threshold": 0,
+  "minLines": 8,
+  "minTokens": 70,
+  "reporters": ["console"],
+  "ignore": ["**/node_modules/**", "**/dist/**", "**/.astro/**", "src/content/posts/**"],
+  "format": ["css", "javascript", "typescript", "tsx", "markup"]
+}

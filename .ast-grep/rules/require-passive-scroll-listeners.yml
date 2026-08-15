@@ -1,0 +1,12 @@
+id: require-passive-scroll-listeners
+language: Tsx
+severity: error
+message: Mark touch, wheel, and scroll listeners passive unless they call preventDefault().
+note: This enforces Vercel's react-best-practices client-passive-event-listeners rule.
+files:
+  - src/widgets/**/*.tsx
+rule:
+  pattern: $TARGET.addEventListener($EVENT, $HANDLER)
+constraints:
+  EVENT:
+    regex: ^['"](?:scroll|touchmove|touchstart|wheel)['"]$

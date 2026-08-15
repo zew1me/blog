@@ -1,0 +1,8 @@
+id: no-mutating-sort-in-react
+snapshots:
+  const sorted = items.sort((a, b) => a.value - b.value);:
+    labels:
+      - source: items.sort((a, b) => a.value - b.value)
+        style: primary
+        start: 15
+        end: 54

@@ -1,0 +1,14 @@
+id: require-passive-scroll-listeners
+snapshots:
+  document.addEventListener('wheel', handler);:
+    labels:
+      - source: document.addEventListener('wheel', handler)
+        style: primary
+        start: 0
+        end: 43
+  window.addEventListener('scroll', handler);:
+    labels:
+      - source: window.addEventListener('scroll', handler)
+        style: primary
+        start: 0
+        end: 42

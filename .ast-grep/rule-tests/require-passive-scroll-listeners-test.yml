@@ -1,0 +1,7 @@
+id: require-passive-scroll-listeners
+valid:
+  - "window.addEventListener('scroll', handler, { passive: true });"
+  - "window.addEventListener('click', handler);"
+invalid:
+  - "window.addEventListener('scroll', handler);"
+  - "document.addEventListener('wheel', handler);"

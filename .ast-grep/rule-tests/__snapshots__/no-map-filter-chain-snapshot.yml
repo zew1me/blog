@@ -1,0 +1,8 @@
+id: no-map-filter-chain
+snapshots:
+  'const names = users.map((user) => user.active ? user.name : null).filter(Boolean);':
+    labels:
+      - source: 'users.map((user) => user.active ? user.name : null).filter(Boolean)'
+        style: primary
+        start: 14
+        end: 81

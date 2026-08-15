@@ -1,17 +1,17 @@
 # ARCHITECTURE
 
-How the site is built. For *what it does* see [SPEC.md](./SPEC.md).
+How the site is built. For _what it does_ see [SPEC.md](./SPEC.md).
 
 ## Stack
 
-| | | Why |
-| --- | --- | --- |
-| Astro 7 | Static site generator | Markdown is first-class; ships zero JS unless asked |
-| MDX | Component-bearing posts | Only for posts that need one |
-| Tailwind v4 | Design tokens + utilities | `@theme` block via `@tailwindcss/vite` |
-| React 19 | Interactive widgets | Islands only, never site chrome |
-| Pagefind | Search | Static index, no backend |
-| Vercel | Hosting | Static output on the CDN |
+|             |                           | Why                                                 |
+| ----------- | ------------------------- | --------------------------------------------------- |
+| Astro 7     | Static site generator     | Markdown is first-class; ships zero JS unless asked |
+| MDX         | Component-bearing posts   | Only for posts that need one                        |
+| Tailwind v4 | Design tokens + utilities | `@theme` block via `@tailwindcss/vite`              |
+| React 19    | Interactive widgets       | Islands only, never site chrome                     |
+| Pagefind    | Search                    | Static index, no backend                            |
+| Vercel      | Hosting                   | Static output on the CDN                            |
 
 Output is `static`. **There is no adapter** — Vercel auto-detects Astro and
 serves `dist/`. Adding an adapter would opt into a server runtime the site
@@ -60,12 +60,12 @@ This is the least obvious thing in the repo.
 A remark plugin only ever sees **one file at a time**. It cannot know which
 posts link to which. So the work is split:
 
-| | Rendering | The graph |
-| --- | --- | --- |
-| File | `plugins/remark-wikilink.ts` | `lib/backlinks.ts` |
-| Runs during | Markdown transform | Page render |
-| Reads posts from | disk (`lib/post-index.ts`) | `getCollection` |
-| Produces | `<a>` / `<span class="wikilink-missing">` | forward + reverse maps |
+|                  | Rendering                                 | The graph              |
+| ---------------- | ----------------------------------------- | ---------------------- |
+| File             | `plugins/remark-wikilink.ts`              | `lib/backlinks.ts`     |
+| Runs during      | Markdown transform                        | Page render            |
+| Reads posts from | disk (`lib/post-index.ts`)                | `getCollection`        |
+| Produces         | `<a>` / `<span class="wikilink-missing">` | forward + reverse maps |
 
 They read posts through **different** mechanisms because of where each runs.
 Remark plugins execute inside the Vite/Astro config pipeline, where the
@@ -79,7 +79,7 @@ two ever disagree you get links that render but produce no backlink. Change
 resolution logic there and nowhere else.
 
 Both sides memoize: `post-index.ts` caches the index for the process,
-`backlinks.ts` caches the *promise* so concurrent page renders share one
+`backlinks.ts` caches the _promise_ so concurrent page renders share one
 computation rather than racing.
 
 ### Dev-server caveat
@@ -155,12 +155,15 @@ normal path in `astro dev`.
 ## Deployment
 
 Commit to `main` → Vercel builds → production. **No preview or staging
-environment.** `pnpm build` passing locally is the only gate; there is no
-second chance to catch a broken build before it's live.
+environment.** The blocking pre-push gate is the last local chance to catch a
+problem; GitHub checks provide a second, independently reproducible signal but
+run alongside the direct Vercel deployment.
 
 Vercel needs: build command `pnpm build`, output directory `dist`, and Node ≥
-22.12 (`engines` in `package.json`). DNS for `blog.nigels.dev` is configured in
-the Vercel dashboard.
+22.12 (`engines` in `package.json`). Lefthook blocks pushes on `pnpm verify` and
+`pnpm audit`; GitHub Actions repeats the quality, production-build,
+island-boundary, and dependency checks. DNS for `blog.nigels.dev` is configured
+in the Vercel dashboard.
 
 ## Deferred, and how to add it later
 

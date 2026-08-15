@@ -1,0 +1,6 @@
+id: no-map-filter-chain
+valid:
+  - 'const names = users.flatMap((user) => user.active ? [user.name] : []);'
+  - 'const names = users.filter((user) => user.active).map((user) => user.name);'
+invalid:
+  - 'const names = users.map((user) => user.active ? user.name : null).filter(Boolean);'

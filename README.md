@@ -6,7 +6,8 @@ deployed to Vercel. Committing to `main` publishes to production.
 - **What the site does** — [SPEC.md](./SPEC.md)
 - **How it's built** — [ARCHITECTURE.md](./ARCHITECTURE.md)
 - **Visual tokens** — [DESIGN-SYSTEM.md](./DESIGN-SYSTEM.md)
-- **Repo conventions** — [CLAUDE.md](./CLAUDE.md)
+- **Repo conventions** — [AGENTS.md](./AGENTS.md)
+- **Contributing and quality checks** — [CONTRIBUTING.md](./CONTRIBUTING.md)
 
 ## Running it
 
@@ -15,13 +16,16 @@ pnpm install
 pnpm dev          # http://localhost:4321
 ```
 
-| Command | Does |
-| --- | --- |
-| `pnpm dev` | Dev server. Drafts visible. **Search does not work.** |
-| `pnpm build` | Production build + search index |
-| `pnpm preview` | Serve the build. The only way to test search. |
-| `pnpm check` | Type-check everything |
-| `pnpm clean` | Drop build and content caches |
+| Command        | Does                                                         |
+| -------------- | ------------------------------------------------------------ |
+| `pnpm dev`     | Dev server. Drafts visible. **Search does not work.**        |
+| `pnpm build`   | Production build + search index                              |
+| `pnpm preview` | Serve the build. The only way to test search.                |
+| `pnpm check`   | Type-check everything                                        |
+| `pnpm quality` | Check formatting, lint, types, and static analysis           |
+| `pnpm verify`  | Run the complete pre-push gate, including a production build |
+| `pnpm audit`   | Check dependencies for high-severity advisories              |
+| `pnpm clean`   | Drop build and content caches                                |
 
 ---
 
@@ -46,16 +50,16 @@ Delete `draft: true` when it's ready. That's the whole publishing flow.
 
 ### Frontmatter
 
-| Field | Required | Notes |
-| --- | --- | --- |
-| `title` | **yes** | Also a wikilink target |
-| `description` | **yes** | One sentence, no markdown |
-| `pubDate` | **yes** | `YYYY-MM-DD`. Interpreted as UTC |
-| `updatedDate` | no | Only when materially revising something published |
-| `tags` | no | Lowercase, kebab-case, flat. Defaults to `[]` |
-| `draft` | no | `true` hides it from production. Defaults to `false` |
-| `aliases` | no | Extra names wikilinks can use to reach this post |
-| `heroImage` | no | Path relative to the `.md` file. Most posts skip it |
+| Field         | Required | Notes                                                |
+| ------------- | -------- | ---------------------------------------------------- |
+| `title`       | **yes**  | Also a wikilink target                               |
+| `description` | **yes**  | One sentence, no markdown                            |
+| `pubDate`     | **yes**  | `YYYY-MM-DD`. Interpreted as UTC                     |
+| `updatedDate` | no       | Only when materially revising something published    |
+| `tags`        | no       | Lowercase, kebab-case, flat. Defaults to `[]`        |
+| `draft`       | no       | `true` hides it from production. Defaults to `false` |
+| `aliases`     | no       | Extra names wikilinks can use to reach this post     |
+| `heroImage`   | no       | Path relative to the `.md` file. Most posts skip it  |
 
 The build **fails** if `title`, `description`, or `pubDate` is missing or
 malformed. That's deliberate — those three drive listings, RSS, and SEO.
@@ -144,7 +148,7 @@ library.
 ## Publishing
 
 ```sh
-pnpm build      # must pass
+pnpm verify && pnpm audit
 git add -A && git commit -m "post: the post title"
 git push
 ```

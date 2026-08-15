@@ -1,0 +1,15 @@
+{
+  "plugins": ["prettier-plugin-astro"],
+  "printWidth": 100,
+  "proseWrap": "preserve",
+  "singleQuote": true,
+  "useTabs": true,
+  "overrides": [
+    {
+      "files": ["*.json", "*.jsonc", "*.md", "*.mdx", "*.yaml", "*.yml"],
+      "options": {
+        "useTabs": false
+      }
+    }
+  ]
+}
