@@ -5,73 +5,134 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import { getPublishedPosts } from '../lib/content.ts';
 
 const posts = await getPublishedPosts();
-const [featured, ...rest] = posts;
-const recent = rest.slice(0, HOME_POST_COUNT);
-const hasMore = rest.length > recent.length;
+const recent = posts.slice(0, HOME_POST_COUNT);
+const hasMore = posts.length > recent.length;
 ---
 
 <BaseLayout title={SITE_TITLE} description={SITE_DESCRIPTION}>
-	<div class="measure">
-		<p class="intro">{SITE_DESCRIPTION}</p>
+	<div class="measure landing">
+		<section class="hero" aria-labelledby="hello-heading">
+			<p class="eyebrow">Welcome</p>
+			<h1 id="hello-heading">Hello, world.</h1>
+			<p class="intro">{SITE_DESCRIPTION}</p>
+			<div class="actions">
+				<a class="primary-action" href="/posts/">Read the posts <span aria-hidden="true">→</span></a
+				>
+				<a href="/rss.xml">Follow by RSS</a>
+			</div>
+		</section>
 
-		{
-			featured ? (
-				<>
-					<PostListItem post={featured} featured />
+		<section class="latest" aria-labelledby="latest-heading">
+			<div class="section-header">
+				<h2 id="latest-heading">Latest writing</h2>
+				{
+					hasMore && (
+						<a href="/posts/">
+							Full archive <span aria-hidden="true">→</span>
+						</a>
+					)
+				}
+			</div>
 
-					{recent.length > 0 && (
-						<>
-							<h2 class="eyebrow section-heading">More posts</h2>
-							{recent.map((post) => (
-								<PostListItem post={post} />
-							))}
-						</>
-					)}
-
-					{hasMore && (
-						<p class="more">
-							<a href="/posts/">Browse the full archive →</a>
-						</p>
-					)}
-				</>
-			) : (
-				<p class="empty">
-					Nothing published yet. Add a Markdown file to <code>src/content/posts/</code> to get
-					started — see the README.
-				</p>
-			)
-		}
+			{
+				recent.length > 0 ? (
+					recent.map((post, index) => <PostListItem post={post} featured={index === 0} />)
+				) : (
+					<p class="empty">The first post is on its way.</p>
+				)
+			}
+		</section>
 	</div>
 </BaseLayout>
 
 <style>
+	.landing {
+		padding-block: 1rem 3rem;
+	}
+
+	.hero {
+		padding-block: 4rem 4.5rem;
+		border-bottom: 1px solid var(--color-rule);
+	}
+
+	.hero .eyebrow {
+		margin: 0 0 0.75rem;
+	}
+
+	h1 {
+		max-width: 12ch;
+		margin: 0;
+		font-size: var(--text-step-4);
+		line-height: 1.05;
+		letter-spacing: -0.035em;
+		text-wrap: balance;
+	}
+
 	.intro {
-		margin: 0 0 2.5rem;
+		max-width: 42ch;
+		margin: 1.25rem 0 0;
 		font-size: var(--text-step-1);
 		line-height: 1.5;
 		color: var(--color-ink-muted);
 		text-wrap: pretty;
 	}
 
-	.section-heading {
-		margin: 2.75rem 0 0.25rem;
+	.actions {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		gap: 0.8rem 1.25rem;
+		margin-top: 2rem;
 	}
 
-	.more {
-		margin-top: 1.75rem;
-	}
-
-	.more a {
+	.actions a,
+	.section-header a {
 		color: var(--color-accent);
 		text-underline-offset: 0.18em;
+	}
+
+	.actions .primary-action {
+		display: inline-flex;
+		gap: 0.45rem;
+		padding: 0.65rem 0.9rem;
+		border: 1px solid var(--color-accent);
+		border-radius: var(--radius-sm);
+		text-decoration: none;
+	}
+
+	.actions .primary-action:hover {
+		background: var(--color-accent-soft);
+	}
+
+	.latest {
+		padding-top: 3rem;
+	}
+
+	.section-header {
+		display: flex;
+		align-items: baseline;
+		justify-content: space-between;
+		gap: 1rem;
+		margin-bottom: 0.5rem;
+	}
+
+	.section-header h2 {
+		margin: 0;
+		font-size: var(--text-step-1);
+		line-height: 1.2;
+	}
+
+	.section-header a {
+		font-size: var(--text-step--1);
 	}
 
 	.empty {
 		color: var(--color-ink-muted);
 	}
 
-	.empty code {
-		font-family: var(--font-mono);
-		font-size: 0.9em;
+	@media (width <= 34rem) {
+		.hero {
+			padding-block: 3rem;
+		}
 	}
 </style>

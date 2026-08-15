@@ -30,7 +30,6 @@ export const NAV_LINKS = [
 	{ label: 'Posts', href: '/posts/' },
 	{ label: 'Tags', href: '/tags/' },
 	{ label: 'Search', href: '/search/' },
-	{ label: 'About', href: '/about/' },
 ] as const;
 
 /** How many posts the homepage lists below the featured lead. */
