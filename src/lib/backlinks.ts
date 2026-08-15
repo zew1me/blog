@@ -15,14 +15,14 @@ import { buildLinkIndex, parseWikilinks, postHref, resolveLink } from './resolve
  * into a published page's "Linked from" panel.
  */
 
-export type LinkRef = {
+type LinkRef = {
 	id: string;
 	title: string;
 	href: string;
 	description: string;
 };
 
-export type LinkGraph = {
+type LinkGraph = {
 	/** post id -> posts it links out to */
 	outbound: Map<string, LinkRef[]>;
 	/** post id -> posts that link to it */
@@ -85,7 +85,7 @@ let pending: Promise<LinkGraph> | null = null;
  * Memoized on the promise, not the value, so concurrent page renders during a
  * parallel build share one computation instead of racing to build several.
  */
-export function getLinkGraph(): Promise<LinkGraph> {
+function getLinkGraph(): Promise<LinkGraph> {
 	pending ??= computeGraph();
 	return pending;
 }

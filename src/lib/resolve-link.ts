@@ -29,7 +29,7 @@ export type ResolvedLink = {
 };
 
 /** Route prefix for posts. Change here if the route table changes. */
-export const POST_BASE = '/posts';
+const POST_BASE = '/posts';
 
 export function postHref(id: string): string {
 	return `${POST_BASE}/${id}/`;
@@ -40,7 +40,7 @@ export function postHref(id: string): string {
  * Case-insensitive, whitespace-collapsed, and tolerant of `-`/`_`/space
  * being used interchangeably so `[[Hello World]]` finds `hello-world.md`.
  */
-export function normalizeKey(value: string): string {
+function normalizeKey(value: string): string {
 	return value
 		.trim()
 		.toLowerCase()

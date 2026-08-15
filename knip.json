@@ -1,5 +1,4 @@
 {
   "$schema": "https://unpkg.com/knip@6/schema.json",
-  "project": ["src/**/*.{astro,ts,tsx}"],
-  "ignoreDependencies": ["@tailwindcss/typography", "tailwindcss"]
+  "ignoreDependencies": ["@secretlint/secretlint-rule-preset-recommend"]
 }

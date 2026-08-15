@@ -31,11 +31,6 @@ export async function getTagCounts(): Promise<{ tag: string; count: number }[]> 
 		.sort((a, b) => b.count - a.count || a.tag.localeCompare(b.tag));
 }
 
-export async function getPostsByTag(tag: string): Promise<Post[]> {
-	const posts = await getPublishedPosts();
-	return posts.filter((post) => post.data.tags.includes(tag));
-}
-
 /** Groups posts by publication year, newest year first. */
 export function groupByYear(posts: Post[]): { year: number; posts: Post[] }[] {
 	const groups = new Map<number, Post[]>();
