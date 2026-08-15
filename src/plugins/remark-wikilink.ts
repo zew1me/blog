@@ -33,13 +33,14 @@ export function remarkWikilink() {
 
 			WIKILINK_PATTERN.lastIndex = 0;
 			for (const match of value.matchAll(WIKILINK_PATTERN)) {
-				const start = match.index!;
+				const start = match.index;
 				if (start > cursor) {
 					replacements.push({ type: 'text', value: value.slice(cursor, start) });
 				}
 
-				const rawTarget = match[1]!;
-				const label = match[2] ?? null;
+				const rawTarget = match.at(1);
+				if (!rawTarget) continue;
+				const label = match.at(2) ?? null;
 				const resolved = resolveLink(index, rawTarget);
 
 				if (resolved) {
@@ -51,7 +52,7 @@ export function remarkWikilink() {
 						children: [{ type: 'text', value: label ?? resolved.title }],
 					});
 				} else {
-					buildWarn('wikilink', `unresolved: [[${rawTarget}]]`, file?.path);
+					buildWarn('wikilink', `unresolved: [[${rawTarget}]]`, file.path);
 					replacements.push({
 						type: 'html',
 						value: `<span class="wikilink-missing" title="Unresolved link: ${escapeAttr(

@@ -28,11 +28,13 @@ const { title, description, pubDate, updatedDate, heroImage, tags, draft } = pos
 
 			<p class="meta">
 				<FormattedDate date={pubDate} format="long" />
-				{updatedDate && (
-					<span>
-						· updated <FormattedDate date={updatedDate} format="long" />
-					</span>
-				)}
+				{
+					updatedDate && (
+						<span>
+							· updated <FormattedDate date={updatedDate} format="long" />
+						</span>
+					)
+				}
 			</p>
 
 			{
@@ -56,8 +58,10 @@ const { title, description, pubDate, updatedDate, heroImage, tags, draft } = pos
 			)
 		}
 
-		{/* data-pagefind-body scopes the search index to real post prose.
-		    Without it Pagefind would index nav, footer, and backlinks too. */}
+		{
+			/* data-pagefind-body scopes the search index to real post prose.
+		    Without it Pagefind would index nav, footer, and backlinks too. */
+		}
 		<div class="prose" data-pagefind-body>
 			<slot />
 		</div>
@@ -102,6 +106,7 @@ const { title, description, pubDate, updatedDate, heroImage, tags, draft } = pos
 		list-style: none;
 		font-size: var(--text-step--1);
 	}
+
 	.tags a {
 		display: inline-block;
 		padding: 0.15em 0.6em;
@@ -110,6 +115,7 @@ const { title, description, pubDate, updatedDate, heroImage, tags, draft } = pos
 		color: var(--color-ink-muted);
 		text-decoration: none;
 	}
+
 	.tags a:hover {
 		border-color: var(--color-accent);
 		color: var(--color-accent);
@@ -118,6 +124,7 @@ const { title, description, pubDate, updatedDate, heroImage, tags, draft } = pos
 	.hero {
 		margin: 0 0 2.5rem;
 	}
+
 	.hero :global(img) {
 		width: 100%;
 		height: auto;

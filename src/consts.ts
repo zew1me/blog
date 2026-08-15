@@ -6,7 +6,8 @@
  */
 
 export const SITE_TITLE = "Nigel's Blog";
-export const SITE_DESCRIPTION = 'Writing on software, systems, and whatever else is holding my attention.';
+export const SITE_DESCRIPTION =
+	'Writing on software, systems, and whatever else is holding my attention.';
 export const SITE_AUTHOR = 'Nigel S.';
 
 /**

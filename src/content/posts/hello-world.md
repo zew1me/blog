@@ -17,7 +17,7 @@ lists, tables, blockquotes, and fenced code blocks:
 
 ```ts
 function greet(name: string): string {
-	return `hello, ${name}`;
+  return `hello, ${name}`;
 }
 ```
 

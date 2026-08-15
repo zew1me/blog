@@ -29,15 +29,18 @@
 		cursor: pointer;
 		line-height: 1;
 	}
+
 	.theme-toggle:hover {
 		color: var(--color-ink);
 		border-color: var(--color-ink-faint);
 	}
+
 	/* Both icons occupy the same cell so the button never changes size. */
 	.theme-toggle-icon {
 		grid-area: 1 / 1;
 		font-size: 0.95rem;
 	}
+
 	:global([data-theme='light']) .theme-toggle [data-icon-dark],
 	:global([data-theme='dark']) .theme-toggle [data-icon-light] {
 		display: none;

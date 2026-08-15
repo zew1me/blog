@@ -1,4 +1,5 @@
-import { getPublishedPosts, type Post } from './content.ts';
+import { getPublishedPosts } from './content.ts';
+import type { Post } from './content.ts';
 import { buildLinkIndex, parseWikilinks, postHref, resolveLink } from './resolve-link.ts';
 
 /**
@@ -14,19 +15,19 @@ import { buildLinkIndex, parseWikilinks, postHref, resolveLink } from './resolve
  * into a published page's "Linked from" panel.
  */
 
-export interface LinkRef {
+export type LinkRef = {
 	id: string;
 	title: string;
 	href: string;
 	description: string;
-}
+};
 
-export interface LinkGraph {
+export type LinkGraph = {
 	/** post id -> posts it links out to */
 	outbound: Map<string, LinkRef[]>;
 	/** post id -> posts that link to it */
 	inbound: Map<string, LinkRef[]>;
-}
+};
 
 function toRef(post: Post): LinkRef {
 	return {

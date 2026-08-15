@@ -10,7 +10,7 @@ import tseslint from 'typescript-eslint';
 const typedFiles = ['src/**/*.{ts,tsx}'];
 const codeFiles = ['src/**/*.{ts,tsx,astro}', 'astro.config.mjs'];
 
-export default tseslint.config(
+export default [
 	{
 		ignores: ['.astro/**', 'dist/**', 'node_modules/**'],
 	},
@@ -63,9 +63,10 @@ export default tseslint.config(
 			'@typescript-eslint/no-confusing-void-expression': 'error',
 			'@typescript-eslint/no-floating-promises': 'error',
 			'@typescript-eslint/no-misused-promises': 'error',
+			'@typescript-eslint/prefer-nullish-coalescing': 'off',
 			'@typescript-eslint/restrict-template-expressions': ['error', { allowNumber: true }],
 			'@typescript-eslint/switch-exhaustiveness-check': 'error',
 		},
 	},
 	prettier,
-);
+];

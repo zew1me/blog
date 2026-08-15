@@ -1,16 +1,16 @@
 # SPEC
 
-What the site does. For *how* it's built see [ARCHITECTURE.md](./ARCHITECTURE.md);
+What the site does. For _how_ it's built see [ARCHITECTURE.md](./ARCHITECTURE.md);
 for visual tokens see [DESIGN-SYSTEM.md](./DESIGN-SYSTEM.md).
 
 ## Identity
 
-| | |
-| --- | --- |
-| Title | Nigel's Blog |
-| Canonical origin | `https://blog.nigels.dev` |
-| Author | Nigel S. |
-| Related site | `https://nigels.dev` — separate property, linked from the footer |
+|                  |                                                                  |
+| ---------------- | ---------------------------------------------------------------- |
+| Title            | Nigel's Blog                                                     |
+| Canonical origin | `https://blog.nigels.dev`                                        |
+| Author           | Nigel S.                                                         |
+| Related site     | `https://nigels.dev` — separate property, linked from the footer |
 
 Defined once in `src/consts.ts`. `astro.config.mjs` imports `SITE_URL` as its
 `site` value, so the origin has a single definition rather than two that could
@@ -27,16 +27,16 @@ can be added later without migrating anything.
 
 Enforced by Zod in `src/content.config.ts`. A violation fails the build.
 
-| Field | Type | Default | Meaning |
-| --- | --- | --- | --- |
-| `title` | string | — **required** | Display title; also a wikilink target |
-| `description` | string | — **required** | One-sentence dek. Listings, `<meta>`, RSS |
-| `pubDate` | date | — **required** | Publication date; drives all ordering |
-| `updatedDate` | date | — | Shown only when set |
-| `heroImage` | image | — | Optional. Most posts have none |
-| `tags` | string[] | `[]` | Lowercase, kebab-case, flat |
-| `draft` | boolean | `false` | Hidden in production |
-| `aliases` | string[] | `[]` | Additional wikilink targets |
+| Field         | Type     | Default        | Meaning                                   |
+| ------------- | -------- | -------------- | ----------------------------------------- |
+| `title`       | string   | — **required** | Display title; also a wikilink target     |
+| `description` | string   | — **required** | One-sentence dek. Listings, `<meta>`, RSS |
+| `pubDate`     | date     | — **required** | Publication date; drives all ordering     |
+| `updatedDate` | date     | —              | Shown only when set                       |
+| `heroImage`   | image    | —              | Optional. Most posts have none            |
+| `tags`        | string[] | `[]`           | Lowercase, kebab-case, flat               |
+| `draft`       | boolean  | `false`        | Hidden in production                      |
+| `aliases`     | string[] | `[]`           | Additional wikilink targets               |
 
 Three fields are required because each has a downstream consumer that cannot
 degrade gracefully: `title` (listings, links), `description` (RSS, previews),
@@ -54,23 +54,23 @@ The filename is the slug. `src/content/posts/hello-world.md` → `/posts/hello-w
 Trailing slashes are enforced site-wide.
 
 Renaming a file changes its URL and breaks inbound links. There is no redirect
-mechanism; add `aliases` to keep *wikilinks* working, but note that aliases do
+mechanism; add `aliases` to keep _wikilinks_ working, but note that aliases do
 **not** create redirects for external URLs.
 
 ## Routes
 
-| Route | Contents |
-| --- | --- |
-| `/` | Featured lead post, then up to 10 recent. Typographic, no image grid |
-| `/posts/` | Full archive grouped by year, newest first |
-| `/posts/<slug>/` | The post, plus its backlinks panel |
-| `/tags/` | All tags with counts, most-used first |
-| `/tags/<tag>/` | Posts carrying that tag |
-| `/about/` | Static page |
-| `/search/` | Client-side search |
-| `/rss.xml` | Feed |
-| `/sitemap-index.xml` | Sitemap (excludes `/search/`) |
-| `/404` | Not found |
+| Route                | Contents                                                             |
+| -------------------- | -------------------------------------------------------------------- |
+| `/`                  | Featured lead post, then up to 10 recent. Typographic, no image grid |
+| `/posts/`            | Full archive grouped by year, newest first                           |
+| `/posts/<slug>/`     | The post, plus its backlinks panel                                   |
+| `/tags/`             | All tags with counts, most-used first                                |
+| `/tags/<tag>/`       | Posts carrying that tag                                              |
+| `/about/`            | Static page                                                          |
+| `/search/`           | Client-side search                                                   |
+| `/rss.xml`           | Feed                                                                 |
+| `/sitemap-index.xml` | Sitemap (excludes `/search/`)                                        |
+| `/404`               | Not found                                                            |
 
 ## Drafts
 
@@ -84,7 +84,7 @@ work on them normally.
 This is enforced in exactly one place: `getPublishedPosts()` in
 `src/lib/content.ts`. Pages must never call `getCollection('posts')` directly —
 doing so leaks drafts into production, and the mistake is invisible in dev,
-where drafts are *supposed* to show.
+where drafts are _supposed_ to show.
 
 ## Wikilinks
 
@@ -129,7 +129,7 @@ Pagefind, over the built HTML. Entirely static — no server, no API, no account
 - **Indexed:** post body prose only (`data-pagefind-body` on the post layout).
 - **Not indexed:** the homepage, archive, tag pages, about, 404, and — within a
   post — the header, footer, nav, and backlinks panel. Backlinks are excluded
-  deliberately: they contain *other* posts' titles, which would make every
+  deliberately: they contain _other_ posts' titles, which would make every
   backlinked post a false hit.
 - Results show title and a highlighted excerpt; first 20 rendered.
 - `/search/?q=term` pre-fills and runs the query.

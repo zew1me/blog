@@ -9,11 +9,11 @@ import { useId, useMemo, useState } from 'react';
  * light/dark automatically without knowing the theme.
  */
 
-interface Props {
+type Props = {
 	/** Curve half-life in steps. */
 	initialHalfLife?: number;
 	steps?: number;
-}
+};
 
 const WIDTH = 640;
 const HEIGHT = 260;
@@ -35,7 +35,9 @@ export default function DecayCurve({ initialHalfLife = 4, steps = 24 }: Props) {
 			};
 		});
 
-		const line = points.map((p, i) => `${i === 0 ? 'M' : 'L'}${p.x.toFixed(2)},${p.y.toFixed(2)}`).join(' ');
+		const line = points
+			.map((p, i) => `${i === 0 ? 'M' : 'L'}${p.x.toFixed(2)},${p.y.toFixed(2)}`)
+			.join(' ');
 		const baseline = PAD.top + plotH;
 		return {
 			path: line,
@@ -63,7 +65,13 @@ export default function DecayCurve({ initialHalfLife = 4, steps = 24 }: Props) {
 								stroke="var(--color-rule)"
 								strokeWidth="1"
 							/>
-							<text x={PAD.left - 8} y={y + 4} textAnchor="end" fontSize="11" fill="var(--color-ink-faint)">
+							<text
+								x={PAD.left - 8}
+								y={y + 4}
+								textAnchor="end"
+								fontSize="11"
+								fill="var(--color-ink-faint)"
+							>
 								{(1 - t).toFixed(2)}
 							</text>
 						</g>
@@ -71,7 +79,13 @@ export default function DecayCurve({ initialHalfLife = 4, steps = 24 }: Props) {
 				})}
 
 				<path d={area} fill="var(--color-accent-soft)" />
-				<path d={path} fill="none" stroke="var(--color-accent)" strokeWidth="2" strokeLinejoin="round" />
+				<path
+					d={path}
+					fill="none"
+					stroke="var(--color-accent)"
+					strokeWidth="2"
+					strokeLinejoin="round"
+				/>
 
 				<text
 					x={WIDTH / 2}
@@ -95,7 +109,9 @@ export default function DecayCurve({ initialHalfLife = 4, steps = 24 }: Props) {
 					max={12}
 					step={1}
 					value={halfLife}
-					onChange={(event) => setHalfLife(Number(event.target.value))}
+					onChange={(event) => {
+						setHalfLife(Number(event.target.value));
+					}}
 				/>
 			</div>
 

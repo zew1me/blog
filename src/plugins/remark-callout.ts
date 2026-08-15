@@ -49,13 +49,14 @@ export function remarkCallout() {
 				buildWarn(
 					'callout',
 					`unknown directive ":::${directive.name}". Known: ${Object.keys(VARIANTS).join(', ')}`,
-					file?.path,
+					file.path,
 				);
 				return;
 			}
 
 			const variant = VARIANTS[directive.name];
-			const title = directive.attributes?.title?.trim() || variant.label;
+			let title = directive.attributes?.title?.trim();
+			if (!title) title = variant.label;
 
 			directive.data = {
 				...directive.data,

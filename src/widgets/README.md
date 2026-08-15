@@ -11,11 +11,11 @@ components passed through a `components` prop mapping.
 
 So:
 
-| If the thing... | Build it as |
-| --- | --- |
+| If the thing...                                      | Build it as                                |
+| ---------------------------------------------------- | ------------------------------------------ |
 | must work in plain `.md` (callouts, figures, asides) | `.astro`, or a remark plugin emitting HTML |
-| renders once and never changes | `.astro` — zero JS |
-| responds to the reader | `.tsx` React island in an `.mdx` post |
+| renders once and never changes                       | `.astro` — zero JS                         |
+| responds to the reader                               | `.tsx` React island in an `.mdx` post      |
 
 ## Prefer build-time over client-side
 

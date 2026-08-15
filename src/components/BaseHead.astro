@@ -55,7 +55,9 @@ const pageTitle = title === SITE_TITLE ? title : `${title} — ${SITE_TITLE}`;
 			{article.modifiedTime && (
 				<meta property="article:modified_time" content={article.modifiedTime.toISOString()} />
 			)}
-			{article.tags?.map((tag) => <meta property="article:tag" content={tag} />)}
+			{article.tags?.map((tag) => (
+				<meta property="article:tag" content={tag} />
+			))}
 		</>
 	)
 }
@@ -65,12 +67,14 @@ const pageTitle = title === SITE_TITLE ? title : `${title} — ${SITE_TITLE}`;
 <meta name="twitter:description" content={description} />
 {socialImage && <meta name="twitter:image" content={socialImage} />}
 
-{/*
+{
+	/*
   Theme must be resolved BEFORE first paint or dark-mode readers get a white
   flash. This script is deliberately inline and render-blocking; it is a few
   hundred bytes and runs synchronously in <head>. `is:inline` keeps Astro from
   bundling and deferring it, which would defeat the whole point.
-*/}
+*/
+}
 <script is:inline>
 	(() => {
 		try {

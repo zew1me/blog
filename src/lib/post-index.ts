@@ -1,7 +1,8 @@
 import { readdirSync, readFileSync } from 'node:fs';
 import { join, relative, sep } from 'node:path';
 import matter from 'gray-matter';
-import { buildLinkIndex, type LinkIndex, type LinkTarget } from './resolve-link.ts';
+import { buildLinkIndex } from './resolve-link.ts';
+import type { LinkIndex, LinkTarget } from './resolve-link.ts';
 
 /**
  * Reads the posts directory straight off disk to build the wikilink index.

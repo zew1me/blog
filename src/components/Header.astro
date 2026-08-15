@@ -76,24 +76,28 @@ function isActive(href: string): boolean {
 		text-decoration: none;
 		color: var(--color-ink-muted);
 	}
+
 	nav a:hover {
 		color: var(--color-ink);
 	}
+
 	nav a[aria-current='page'] {
 		color: var(--color-ink);
 		font-weight: 700;
 	}
 
-	@media (max-width: 34rem) {
+	@media (width <= 34rem) {
 		.header-inner {
 			flex-wrap: wrap;
 			padding-block: 0.6rem;
 		}
+
 		nav {
 			order: 3;
 			width: 100%;
 			margin-inline-start: 0;
 		}
+
 		ul {
 			gap: 0.9rem;
 		}

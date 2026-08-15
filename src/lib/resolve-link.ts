@@ -12,21 +12,21 @@
  */
 
 /** The minimum shape a post needs to be a resolution target. */
-export interface LinkTarget {
+export type LinkTarget = {
 	/** Collection entry id — the file path minus extension, e.g. "hello-world". */
 	id: string;
 	title: string;
 	aliases: string[];
-}
+};
 
-export interface ResolvedLink {
+export type ResolvedLink = {
 	/** Entry id of the matched post. */
 	id: string;
 	/** Site-absolute href. */
 	href: string;
 	/** Canonical title of the matched post. */
 	title: string;
-}
+};
 
 /** Route prefix for posts. Change here if the route table changes. */
 export const POST_BASE = '/posts';
@@ -56,11 +56,11 @@ export function normalizeKey(value: string): string {
  * Resolution order is slug -> aliases -> title. Earlier tiers win outright,
  * so an alias can never shadow a real slug.
  */
-export interface LinkIndex {
+export type LinkIndex = {
 	bySlug: Map<string, LinkTarget>;
 	byAlias: Map<string, LinkTarget>;
 	byTitle: Map<string, LinkTarget>;
-}
+};
 
 export function buildLinkIndex(targets: LinkTarget[]): LinkIndex {
 	const bySlug = new Map<string, LinkTarget>();
@@ -105,12 +105,12 @@ export function resolveLink(index: LinkIndex, rawTarget: string): ResolvedLink |
  * Deliberately rejects `]`, `[`, and newlines inside the target so an
  * unclosed bracket can't swallow the rest of a paragraph.
  */
-export const WIKILINK_PATTERN = /\[\[([^\[\]\n|]+?)(?:\|([^\[\]\n]+?))?\]\]/g;
+export const WIKILINK_PATTERN = /\[\[([^\u005B\u005D\n|]+?)(?:\|([^\u005B\u005D\n]+?))?\]\]/g;
 
-export interface ParsedWikilink {
+export type ParsedWikilink = {
 	target: string;
 	label: string | null;
-}
+};
 
 /** Extracts every wikilink in a raw markdown body, in source order. */
 export function parseWikilinks(body: string): ParsedWikilink[] {
@@ -118,7 +118,8 @@ export function parseWikilinks(body: string): ParsedWikilink[] {
 	// `matchAll` needs a fresh lastIndex each call; the global regex is shared.
 	WIKILINK_PATTERN.lastIndex = 0;
 	for (const match of body.matchAll(WIKILINK_PATTERN)) {
-		found.push({ target: match[1]!, label: match[2] ?? null });
+		const target = match.at(1);
+		if (target) found.push({ target, label: match.at(2) ?? null });
 	}
 	return found;
 }
