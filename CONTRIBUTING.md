@@ -52,4 +52,4 @@ that create false positives.
 - Use repository scripts rather than one-off global tools.
 - Keep posts as Markdown unless they import an interactive component.
 - Update `SPEC.md`, `ARCHITECTURE.md`, or `DESIGN-SYSTEM.md` when their contracts change.
-- Verify that plain Markdown posts still ship no JavaScript after shared layout changes.
+- Verify that plain Markdown posts still load no hydrated framework islands after shared layout changes.

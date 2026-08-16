@@ -14,7 +14,7 @@
     "preview": "astro preview",
     "check": "astro check",
     "astro:sync": "astro sync",
-    "check:islands": "test \"$(grep -c 'astro-island' dist/posts/hello-world/index.html)\" -eq 0 && test \"$(grep -c 'astro-island' dist/posts/widgets/index.html)\" -gt 0",
+    "check:islands": "test -f dist/posts/hello-world/index.html && test -f dist/posts/widgets/index.html && ! grep -q 'astro-island' dist/posts/hello-world/index.html && grep -q 'astro-island' dist/posts/widgets/index.html",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "lint": "pnpm lint:eslint && pnpm lint:styles && pnpm lint:markdown",

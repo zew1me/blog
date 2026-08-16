@@ -4,14 +4,14 @@ How the site is built. For _what it does_ see [SPEC.md](./SPEC.md).
 
 ## Stack
 
-|             |                           | Why                                                 |
-| ----------- | ------------------------- | --------------------------------------------------- |
-| Astro 7     | Static site generator     | Markdown is first-class; ships zero JS unless asked |
-| MDX         | Component-bearing posts   | Only for posts that need one                        |
-| Tailwind v4 | Design tokens + utilities | `@theme` block via `@tailwindcss/vite`              |
-| React 19    | Interactive widgets       | Islands only, never site chrome                     |
-| Pagefind    | Search                    | Static index, no backend                            |
-| Vercel      | Hosting                   | Static output on the CDN                            |
+|             |                           | Why                                               |
+| ----------- | ------------------------- | ------------------------------------------------- |
+| Astro 7     | Static site generator     | Markdown-first; no component runtime unless asked |
+| MDX         | Component-bearing posts   | Only for posts that need one                      |
+| Tailwind v4 | Design tokens + utilities | `@theme` block via `@tailwindcss/vite`            |
+| React 19    | Interactive widgets       | Islands only, never site chrome                   |
+| Pagefind    | Search                    | Static index, no backend                          |
+| Vercel      | Hosting                   | Static output on the CDN                          |
 
 Output is `static`. **There is no adapter** — Vercel auto-detects Astro and
 serves `dist/`. Adding an adapter would opt into a server runtime the site
@@ -113,10 +113,13 @@ Consequences, which are not negotiable:
 - Site chrome (header, footer, theme toggle) is `.astro` + vanilla TS, so no
   framework reaches a page that didn't ask for one.
 
-Verified in the build output: a `.md` post ships **zero** JS chunks and
-contains no `astro-island`; the `.mdx` post carries `client="visible"` with
-`component-url` and `renderer-url` pointing at React chunks. That property is
-worth re-checking after any change to shared layouts.
+Verified in the build output: a `.md` post contains no `astro-island` and loads
+no React renderer or component chunks; the `.mdx` post carries
+`client="visible"` with `component-url` and `renderer-url` pointing at React
+chunks. Plain posts still include the small vanilla scripts used by shared
+chrome for theme selection. The verification checks that both built HTML files
+exist before inspecting their island markers. That property is worth
+re-checking after any change to shared layouts.
 
 See [`src/widgets/README.md`](./src/widgets/README.md) for choosing between a
 build-time `.astro` component and a React island.

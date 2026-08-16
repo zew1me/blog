@@ -81,9 +81,10 @@ There is no database, application server, admin panel, authentication layer, or
 search account. Git is the editor interface. A push to `main` publishes.
 
 Ordinary posts stay `.md`. A post only becomes `.mdx` when it imports a
-component. [[hello-world]] ships no JavaScript, while
+component. [[hello-world]] loads no hydrated island or React runtime, while
 [[widgets]] can hydrate a React island without turning the rest of the site
-into a React application.
+into a React application. Shared chrome still uses a little vanilla JavaScript
+for things like the theme toggle.
 
 I chose React because it's popular. The agent advised me to defer a framework.
 The advice was reasonable, but if I don't add it now next time I'm building something
@@ -176,9 +177,12 @@ wikilink and the graph builder that derives its backlink use the same resolver.
 Otherwise a link could work in the article while silently disappearing from the
 graph.
 
-**The island boundary is tested in built HTML.** A Markdown post must contain
-zero `astro-island` elements. The MDX widget example must contain at least one.
-That turns "plain posts ship no JavaScript" from an aspiration into a grep.
+**The island boundary is tested in built HTML.** The check first confirms both
+expected HTML files exist. A Markdown post must then contain zero
+`astro-island` elements, while the MDX widget example must contain at least one.
+That marker measures hydrated framework islands, not every `<script>` emitted by
+shared chrome. It turns "plain posts don't hydrate React" from an aspiration
+into a grep.
 
 **The deploy gate is local and repeatable.** Formatting, linting, types, static
 analysis, secrets, dependency audit, a production build, and the island check
