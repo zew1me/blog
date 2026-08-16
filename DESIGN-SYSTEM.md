@@ -94,10 +94,10 @@ Radii: `--radius-sm` (0.25rem) for inline chips and small controls,
 ## Prose
 
 `.prose` uses `@tailwindcss/typography` with every `--tw-prose-*` variable
-remapped onto the tokens above, so it themes automatically. The remapping uses
-a deliberately doubled `.prose.prose` selector: Typography emits its default
-light palette later in the utilities layer, so the added specificity prevents
-that palette from overriding dark-mode post text. Overrides on top:
+remapped onto the tokens above, so it themes automatically. Typography emits
+its default light palette in the utilities layer, so the remapping must live in
+that same layer; only then can the deliberately doubled `.prose.prose`
+selector win on specificity. Overrides on top:
 heading sizes from the scale, thin underlines with `0.18em` offset, non-italic
 blockquotes with a 2px accent rule.
 

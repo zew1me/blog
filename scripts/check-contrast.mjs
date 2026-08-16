@@ -45,8 +45,10 @@ for (const [themeName, palette] of Object.entries(themes)) {
 }
 
 // Tailwind Typography emits its default .prose palette in the utilities layer.
-// The doubled selector must remain more specific or those light defaults win in dark mode.
-const proseOverrides = extractBlock(css, '.prose.prose');
+// Overrides in the components layer lose before specificity is considered, so
+// this regression check requires both the correct layer and doubled selector.
+const utilityOverrides = extractBlock(css, '@layer utilities');
+const proseOverrides = extractBlock(utilityOverrides, '.prose.prose');
 for (const token of [
 	'body',
 	'headings',
