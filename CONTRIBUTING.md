@@ -27,9 +27,10 @@ pnpm audit
 ```
 
 `pnpm verify` checks formatting, ESLint (including Astro and accessibility
-rules), Stylelint, Markdownlint, Astro/TypeScript types, unused code and
-dependencies, repository-specific ast-grep policies, duplication, secrets, the
-production build, and JavaScript island boundaries.
+rules), Stylelint, Markdownlint, Astro/TypeScript types, WCAG AA colour
+contrast in both themes, unused code and dependencies, repository-specific
+ast-grep policies, duplication, secrets, the production build, and JavaScript
+island boundaries.
 
 The hooks split that work deliberately:
 

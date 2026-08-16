@@ -163,10 +163,14 @@ problem; GitHub checks provide a second, independently reproducible signal but
 run alongside the direct Vercel deployment.
 
 Vercel needs: build command `pnpm build`, output directory `dist`, and Node ≥
-22.12 (`engines` in `package.json`). Lefthook blocks pushes on `pnpm verify` and
-`pnpm audit`; GitHub Actions repeats the quality, production-build,
-island-boundary, and dependency checks. DNS for `blog.nigels.dev` is configured
-in the Vercel dashboard.
+22.12 (`engines` in `package.json`). Lefthook blocks pushes on two gates:
+
+- `pnpm verify` checks quality, WCAG AA text contrast in both themes, the prose
+  palette cascade, the production build, and island boundaries.
+- `pnpm audit` blocks high-severity dependency advisories.
+
+GitHub Actions repeats both gates. DNS for `blog.nigels.dev` is configured in
+the Vercel dashboard.
 
 ## Deferred, and how to add it later
 

@@ -32,17 +32,22 @@ hues — a light and dark pair at the same L read as equally prominent.
 | `--color-paper-sunk`  | Recessed surfaces: inputs, widgets | `oklch(96.5% .005 95)` | `oklch(22% .014 260)` |
 | `--color-ink`         | Body text, headings                | `oklch(24% .015 260)`  | `oklch(92% .008 260)` |
 | `--color-ink-muted`   | Deks, secondary text               | `oklch(52% .02 260)`   | `oklch(72% .015 260)` |
-| `--color-ink-faint`   | Dates, counts, captions            | `oklch(68% .015 260)`  | `oklch(56% .015 260)` |
+| `--color-ink-faint`   | Dates, counts, captions            | `oklch(54% .015 260)`  | `oklch(61% .015 260)` |
 | `--color-rule`        | Borders, dividers                  | `oklch(90% .008 260)`  | `oklch(32% .014 260)` |
 | `--color-accent`      | Links, focus, emphasis             | `oklch(52% .19 258)`   | `oklch(76% .14 258)`  |
 | `--color-accent-soft` | Accent fills, marks                | `oklch(95% .03 258)`   | `oklch(30% .05 258)`  |
-| `--color-warn`        | Warnings, broken links             | `oklch(58% .16 55)`    | `oklch(78% .13 70)`   |
+| `--color-warn`        | Warnings, broken links             | `oklch(54% .16 55)`    | `oklch(78% .13 70)`   |
 | `--color-warn-soft`   | Warning fills                      | `oklch(96% .04 75)`    | `oklch(30% .045 70)`  |
-| `--color-tip`         | Tip callouts                       | `oklch(56% .13 165)`   | `oklch(76% .11 165)`  |
+| `--color-tip`         | Tip callouts                       | `oklch(52% .13 165)`   | `oklch(76% .11 165)`  |
 | `--color-tip-soft`    | Tip fills                          | `oklch(96% .035 165)`  | `oklch(28% .04 165)`  |
 
 The paper tokens carry a trace of warm hue in light mode and cool in dark. Pure
 `#fff`/`#000` are avoided — both are harsher than they look in a long read.
+
+Every token combination used for text is held to WCAG AA's 4.5:1 contrast
+minimum in both themes. `pnpm check:contrast` calculates the ratios from the
+OKLCH tokens and also guards the prose palette override; it runs in the
+blocking pre-push and CI quality gates.
 
 ### Theme resolution
 
@@ -89,7 +94,10 @@ Radii: `--radius-sm` (0.25rem) for inline chips and small controls,
 ## Prose
 
 `.prose` uses `@tailwindcss/typography` with every `--tw-prose-*` variable
-remapped onto the tokens above, so it themes automatically. Overrides on top:
+remapped onto the tokens above, so it themes automatically. Typography emits
+its default light palette in the utilities layer, so the remapping must live in
+that same layer; only then can the deliberately doubled `.prose.prose`
+selector win on specificity. Overrides on top:
 heading sizes from the scale, thin underlines with `0.18em` offset, non-italic
 blockquotes with a 2px accent rule.
 
