@@ -28,12 +28,15 @@ have to be plain HTML from a remark plugin, which is exactly how
 <DecayCurve client:visible />
 
 That's a React island. It ships its JavaScript only on this page, and only once
-it scrolls into view. Every `.md` post on this site still ships zero JS.
+it scrolls into view. Every `.md` post on this site still avoids hydrated
+framework islands and the React runtime; shared chrome uses only its small
+vanilla theme scripts.
 
 :::tip{title="Prefer build-time"}
 For a chart that doesn't move, generate the SVG in an `.astro` component
-instead. It ships nothing, renders instantly, and prints properly. Reach for an
-island only when the reader manipulates something — as with the slider above.
+instead. It adds no JavaScript, renders instantly, and prints properly. Reach
+for an island only when the reader manipulates something — as with the slider
+above.
 :::
 
 ## Choosing a directive

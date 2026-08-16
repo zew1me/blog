@@ -107,11 +107,15 @@ After anything touching layouts, config, or shared components:
 pnpm verify && pnpm audit && pnpm preview
 ```
 
-Then confirm the island boundary still holds — a `.md` post must ship no JS:
+Then confirm the island boundary still holds — a `.md` post must not hydrate a
+framework island. Shared chrome emits small vanilla theme scripts, so this
+checks `astro-island` markers rather than total JavaScript:
 
 ```sh
-grep -c 'astro-island' dist/posts/hello-world/index.html   # expect 0
-grep -c 'astro-island' dist/posts/widgets/index.html       # expect > 0
+test -f dist/posts/hello-world/index.html
+test -f dist/posts/widgets/index.html
+! grep -q 'astro-island' dist/posts/hello-world/index.html
+grep -q 'astro-island' dist/posts/widgets/index.html
 ```
 
 If React starts appearing on `.md` pages, something imported a `.tsx` into
