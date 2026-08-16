@@ -34,13 +34,13 @@
 	--color-paper-sunk: oklch(96.5% 0.005 95deg);
 	--color-ink: oklch(24% 0.015 260deg);
 	--color-ink-muted: oklch(52% 0.02 260deg);
-	--color-ink-faint: oklch(68% 0.015 260deg);
+	--color-ink-faint: oklch(54% 0.015 260deg);
 	--color-rule: oklch(90% 0.008 260deg);
 	--color-accent: oklch(52% 0.19 258deg);
 	--color-accent-soft: oklch(95% 0.03 258deg);
-	--color-warn: oklch(58% 0.16 55deg);
+	--color-warn: oklch(54% 0.16 55deg);
 	--color-warn-soft: oklch(96% 0.04 75deg);
-	--color-tip: oklch(56% 0.13 165deg);
+	--color-tip: oklch(52% 0.13 165deg);
 	--color-tip-soft: oklch(96% 0.035 165deg);
 	--radius-sm: 0.25rem;
 	--radius-md: 0.5rem;
@@ -52,7 +52,7 @@
 	--color-paper-sunk: oklch(22% 0.014 260deg);
 	--color-ink: oklch(92% 0.008 260deg);
 	--color-ink-muted: oklch(72% 0.015 260deg);
-	--color-ink-faint: oklch(56% 0.015 260deg);
+	--color-ink-faint: oklch(61% 0.015 260deg);
 	--color-rule: oklch(32% 0.014 260deg);
 	--color-accent: oklch(76% 0.14 258deg);
 	--color-accent-soft: oklch(30% 0.05 258deg);
@@ -141,7 +141,9 @@
 	}
 
 	/* --- Prose ---------------------------------------------------------- */
-	.prose {
+
+	/* Higher specificity beats Typography's later utility-layer defaults. */
+	.prose.prose {
 		--tw-prose-body: var(--color-ink);
 		--tw-prose-headings: var(--color-ink);
 		--tw-prose-lead: var(--color-ink-muted);

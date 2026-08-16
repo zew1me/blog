@@ -15,6 +15,7 @@ pnpm dev        # drafts visible; search does NOT work
 pnpm build      # astro build && pagefind --site dist
 pnpm preview    # serve the build — only way to test search
 pnpm check      # astro check; must be clean
+pnpm check:contrast # WCAG AA token and prose contrast regression checks
 pnpm quality    # formatting, lint, types, and static analysis
 pnpm verify     # complete quality gate + production build
 pnpm audit      # block high-severity dependency advisories

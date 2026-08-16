@@ -164,9 +164,11 @@ run alongside the direct Vercel deployment.
 
 Vercel needs: build command `pnpm build`, output directory `dist`, and Node ≥
 22.12 (`engines` in `package.json`). Lefthook blocks pushes on `pnpm verify` and
-`pnpm audit`; GitHub Actions repeats the quality, production-build,
-island-boundary, and dependency checks. DNS for `blog.nigels.dev` is configured
-in the Vercel dashboard.
+`pnpm audit`; the verify gate includes WCAG AA checks for every text-token and
+surface pairing in both themes plus the prose palette cascade regression.
+GitHub Actions repeats the quality, production-build, island-boundary, and
+dependency checks. DNS for `blog.nigels.dev` is configured in the Vercel
+dashboard.
 
 ## Deferred, and how to add it later
 
