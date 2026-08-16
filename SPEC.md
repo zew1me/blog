@@ -59,18 +59,17 @@ mechanism; add `aliases` to keep _wikilinks_ working, but note that aliases do
 
 ## Routes
 
-| Route                | Contents                                                             |
-| -------------------- | -------------------------------------------------------------------- |
-| `/`                  | Featured lead post, then up to 10 recent. Typographic, no image grid |
-| `/posts/`            | Full archive grouped by year, newest first                           |
-| `/posts/<slug>/`     | The post, plus its backlinks panel                                   |
-| `/tags/`             | All tags with counts, most-used first                                |
-| `/tags/<tag>/`       | Posts carrying that tag                                              |
-| `/about/`            | Static page                                                          |
-| `/search/`           | Client-side search                                                   |
-| `/rss.xml`           | Feed                                                                 |
-| `/sitemap-index.xml` | Sitemap (excludes `/search/`)                                        |
-| `/404`               | Not found                                                            |
+| Route                | Contents                                                 |
+| -------------------- | -------------------------------------------------------- |
+| `/`                  | “Hello, world.” landing page, followed by recent writing |
+| `/posts/`            | Full archive grouped by year, newest first               |
+| `/posts/<slug>/`     | The post, plus its backlinks panel                       |
+| `/tags/`             | All tags with counts, most-used first                    |
+| `/tags/<tag>/`       | Posts carrying that tag                                  |
+| `/search/`           | Client-side search                                       |
+| `/rss.xml`           | Feed                                                     |
+| `/sitemap-index.xml` | Sitemap (excludes `/search/`)                            |
+| `/404`               | Not found                                                |
 
 ## Drafts
 
@@ -127,7 +126,7 @@ sorted alphabetically. Derived at build time; nothing is authored by hand.
 Pagefind, over the built HTML. Entirely static — no server, no API, no account.
 
 - **Indexed:** post body prose only (`data-pagefind-body` on the post layout).
-- **Not indexed:** the homepage, archive, tag pages, about, 404, and — within a
+- **Not indexed:** the homepage, archive, tag pages, 404, and — within a
   post — the header, footer, nav, and backlinks panel. Backlinks are excluded
   deliberately: they contain _other_ posts' titles, which would make every
   backlinked post a false hit.
