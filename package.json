@@ -71,7 +71,7 @@
     "unist-util-visit": "^5.1.0"
   },
   "devDependencies": {
-    "@ast-grep/cli": "0.45.0",
+    "@ast-grep/cli": "0.45.1",
     "@astrojs/check": "^0.9.10",
     "@eslint/js": "^10.0.1",
     "@secretlint/secretlint-rule-preset-recommend": "^13.0.4",
@@ -97,7 +97,7 @@
     "secretlint": "^13.0.4",
     "stylelint": "^17.14.1",
     "stylelint-config-standard": "^40.0.0",
-    "typescript": "^6.0.3",
+    "typescript": "^7.0.2",
     "typescript-eslint": "^8.67.0"
   }
 }
