@@ -40,7 +40,9 @@ const { tag, posts } = Astro.props;
 			</p>
 		</header>
 
-		{posts.map((post) => <PostListItem post={post} />)}
+		{posts.map((post) => (
+			<PostListItem post={post} />
+		))}
 	</div>
 </BaseLayout>
 

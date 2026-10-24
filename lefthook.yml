@@ -26,4 +26,4 @@ pre-push:
     verify:
       run: pnpm verify
     audit:
-      run: pnpm audit
+      run: pnpm run audit

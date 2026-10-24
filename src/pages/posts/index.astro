@@ -12,19 +12,19 @@ const count = posts.length;
 	<div class="measure">
 		<header class="page-header">
 			<h1>Posts</h1>
-			<p class="count">{count} post{count === 1 ? '' : 's'}</p>
+			<p class="count">
+				{count} post{count === 1 ? '' : 's'}
+			</p>
 		</header>
 
-		{
-			years.map((group) => (
-				<section class="year">
-					<h2 class="eyebrow">{group.year}</h2>
-					{group.posts.map((post) => (
-						<PostListItem post={post} />
-					))}
-				</section>
-			))
-		}
+		{years.map((group) => (
+			<section class="year">
+				<h2 class="eyebrow">{group.year}</h2>
+				{group.posts.map((post) => (
+					<PostListItem post={post} />
+				))}
+			</section>
+		))}
 
 		{count === 0 && <p class="empty">No posts yet.</p>}
 	</div>

@@ -167,7 +167,7 @@ Vercel needs: build command `pnpm build`, output directory `dist`, and Node ≥
 
 - `pnpm verify` checks quality, WCAG AA text contrast in both themes, the prose
   palette cascade, the production build, and island boundaries.
-- `pnpm audit` blocks high-severity dependency advisories.
+- `pnpm run audit` blocks high-severity dependency advisories.
 
 GitHub Actions repeats both gates. DNS for `blog.nigels.dev` is configured in
 the Vercel dashboard.

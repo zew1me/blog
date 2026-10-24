@@ -9,25 +9,25 @@ const tags = await getTagCounts();
 	<div class="measure">
 		<header class="page-header">
 			<h1>Tags</h1>
-			<p class="count">{tags.length} tag{tags.length === 1 ? '' : 's'}</p>
+			<p class="count">
+				{tags.length} tag{tags.length === 1 ? '' : 's'}
+			</p>
 		</header>
 
-		{
-			tags.length > 0 ? (
-				<ul class="tag-list">
-					{tags.map(({ tag, count }) => (
-						<li>
-							<a href={`/tags/${tag}/`}>
-								{tag}
-								<span class="n">{count}</span>
-							</a>
-						</li>
-					))}
-				</ul>
-			) : (
-				<p class="empty">No tags yet.</p>
-			)
-		}
+		{tags.length > 0 ? (
+			<ul class="tag-list">
+				{tags.map(({ tag, count }) => (
+					<li>
+						<a href={`/tags/${tag}/`}>
+							{tag}
+							<span class="n">{count}</span>
+						</a>
+					</li>
+				))}
+			</ul>
+		) : (
+			<p class="empty">No tags yet.</p>
+		)}
 	</div>
 </BaseLayout>
 

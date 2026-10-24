@@ -4,7 +4,15 @@ updates:
     directory: /
     schedule:
       interval: weekly
+    # Skip releases younger than this, so a compromised publish has time to be
+    # caught and yanked first. pnpm's minimumReleaseAge enforces 5 days at install.
+    cooldown:
+      default-days: 3
     open-pull-requests-limit: 5
+    ignore:
+      # astro check depends on an API TypeScript 7 removed; see AGENTS.md.
+      - dependency-name: typescript
+        update-types: ['version-update:semver-major']
     groups:
       quality-tooling:
         dependency-type: development
@@ -12,4 +20,6 @@ updates:
     directory: /
     schedule:
       interval: monthly
+    cooldown:
+      default-days: 3
     open-pull-requests-limit: 3

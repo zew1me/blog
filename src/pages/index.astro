@@ -16,8 +16,9 @@ const hasMore = posts.length > recent.length;
 			<h1 id="hello-heading">Hello, world.</h1>
 			<p class="intro">{SITE_DESCRIPTION}</p>
 			<div class="actions">
-				<a class="primary-action" href="/posts/">Read the posts <span aria-hidden="true">→</span></a
-				>
+				<a class="primary-action" href="/posts/">
+					Read the posts <span aria-hidden="true">→</span>
+				</a>
 				<a href="/rss.xml">Follow by RSS</a>
 			</div>
 		</section>
@@ -25,22 +26,18 @@ const hasMore = posts.length > recent.length;
 		<section class="latest" aria-labelledby="latest-heading">
 			<div class="section-header">
 				<h2 id="latest-heading">Latest writing</h2>
-				{
-					hasMore && (
-						<a href="/posts/">
-							Full archive <span aria-hidden="true">→</span>
-						</a>
-					)
-				}
+				{hasMore && (
+					<a href="/posts/">
+						Full archive <span aria-hidden="true">→</span>
+					</a>
+				)}
 			</div>
 
-			{
-				recent.length > 0 ? (
-					recent.map((post, index) => <PostListItem post={post} featured={index === 0} />)
-				) : (
-					<p class="empty">The first post is on its way.</p>
-				)
-			}
+			{recent.length > 0 ? (
+				recent.map((post, index) => <PostListItem post={post} featured={index === 0} />)
+			) : (
+				<p class="empty">The first post is on its way.</p>
+			)}
 		</section>
 	</div>
 </BaseLayout>

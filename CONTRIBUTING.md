@@ -23,7 +23,7 @@ Run the complete local gate before pushing:
 
 ```sh
 pnpm verify
-pnpm audit
+pnpm run audit
 ```
 
 `pnpm verify` checks formatting, ESLint (including Astro and accessibility

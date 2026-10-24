@@ -23,18 +23,16 @@ const { title, description, pubDate, tags, draft } = post.data;
 
 	<p class="meta">
 		<FormattedDate date={pubDate} />
-		{
-			tags.length > 0 && (
-				<>
-					<span aria-hidden="true">·</span>
-					<span class="tags">
-						{tags.map((tag) => (
-							<a href={`/tags/${tag}/`}>{tag}</a>
-						))}
-					</span>
-				</>
-			)
-		}
+		{tags.length > 0 && (
+			<>
+				<span aria-hidden="true">·</span>
+				<span class="tags">
+					{tags.map((tag) => (
+						<a href={`/tags/${tag}/`}>{tag}</a>
+					))}
+				</span>
+			</>
+		)}
 	</p>
 </article>
 

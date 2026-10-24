@@ -18,7 +18,7 @@ pnpm check      # astro check; must be clean
 pnpm check:contrast # WCAG AA token and prose contrast regression checks
 pnpm quality    # formatting, lint, types, and static analysis
 pnpm verify     # complete quality gate + production build
-pnpm audit      # block high-severity dependency advisories
+pnpm run audit  # block high-severity dependency advisories
 pnpm clean      # drop dist + content caches
 ```
 
@@ -83,7 +83,7 @@ deliberate and was verified empirically.
 **Never bypass Lefthook with `--no-verify`.** Pre-commit intentionally applies
 safe autofixes; pre-push runs the blocking production gate.
 
-**`pnpm verify` and `pnpm audit` must pass before pushing.** GitHub Actions runs
+**`pnpm verify` and `pnpm run audit` must pass before pushing.** GitHub Actions runs
 the same quality, build, island-boundary, and dependency checks.
 
 ## Gotchas
@@ -105,7 +105,7 @@ the same quality, build, island-boundary, and dependency checks.
 After anything touching layouts, config, or shared components:
 
 ```sh
-pnpm verify && pnpm audit && pnpm preview
+pnpm verify && pnpm run audit && pnpm preview
 ```
 
 Then confirm the island boundary still holds — a `.md` post must not hydrate a

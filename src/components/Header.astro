@@ -13,19 +13,19 @@ function isActive(href: string): boolean {
 
 <header class="site-header">
 	<div class="measure header-inner">
-		<a href="/" class="wordmark">{SITE_TITLE}</a>
+		<a href="/" class="wordmark">
+			{SITE_TITLE}
+		</a>
 
 		<nav aria-label="Primary">
 			<ul>
-				{
-					NAV_LINKS.map((link) => (
-						<li>
-							<a href={link.href} aria-current={isActive(link.href) ? 'page' : undefined}>
-								{link.label}
-							</a>
-						</li>
-					))
-				}
+				{NAV_LINKS.map((link) => (
+					<li>
+						<a href={link.href} aria-current={isActive(link.href) ? 'page' : undefined}>
+							{link.label}
+						</a>
+					</li>
+				))}
 			</ul>
 		</nav>
 

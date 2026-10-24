@@ -13,16 +13,16 @@ const year = new Date().getFullYear();
 
 		<nav aria-label="Elsewhere">
 			<ul>
-				{
-					SOCIAL_LINKS.map((link) => (
-						<li>
-							<a href={link.href} rel="me noopener">
-								{link.label}
-							</a>
-						</li>
-					))
-				}
-				<li><a href="/rss.xml">RSS</a></li>
+				{SOCIAL_LINKS.map((link) => (
+					<li>
+						<a href={link.href} rel="me noopener">
+							{link.label}
+						</a>
+					</li>
+				))}
+				<li>
+					<a href="/rss.xml">RSS</a>
+				</li>
 			</ul>
 		</nav>
 	</div>
