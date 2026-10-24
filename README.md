@@ -16,16 +16,16 @@ pnpm install
 pnpm dev          # http://localhost:4321
 ```
 
-| Command        | Does                                                         |
-| -------------- | ------------------------------------------------------------ |
-| `pnpm dev`     | Dev server. Drafts visible. **Search does not work.**        |
-| `pnpm build`   | Production build + search index                              |
-| `pnpm preview` | Serve the build. The only way to test search.                |
-| `pnpm check`   | Type-check everything                                        |
-| `pnpm quality` | Check formatting, lint, types, and static analysis           |
-| `pnpm verify`  | Run the complete pre-push gate, including a production build |
-| `pnpm audit`   | Check dependencies for high-severity advisories              |
-| `pnpm clean`   | Drop build and content caches                                |
+| Command          | Does                                                         |
+| ---------------- | ------------------------------------------------------------ |
+| `pnpm dev`       | Dev server. Drafts visible. **Search does not work.**        |
+| `pnpm build`     | Production build + search index                              |
+| `pnpm preview`   | Serve the build. The only way to test search.                |
+| `pnpm check`     | Type-check everything                                        |
+| `pnpm quality`   | Check formatting, lint, types, and static analysis           |
+| `pnpm verify`    | Run the complete pre-push gate, including a production build |
+| `pnpm run audit` | Check dependencies for high-severity advisories              |
+| `pnpm clean`     | Drop build and content caches                                |
 
 ---
 
@@ -148,7 +148,7 @@ library.
 ## Publishing
 
 ```sh
-pnpm verify && pnpm audit
+pnpm verify && pnpm run audit
 git add -A && git commit -m "post: the post title"
 git push
 ```
