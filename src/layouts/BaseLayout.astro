@@ -20,7 +20,9 @@ const { title, description, image, article } = Astro.props;
 		<BaseHead title={title} description={description} image={image} article={article} />
 	</head>
 	<body>
-		<a href="#main" class="skip-link">Skip to content</a>
+		<a href="#main" class="skip-link">
+			Skip to content
+		</a>
 		<Header />
 		<main id="main">
 			<slot />

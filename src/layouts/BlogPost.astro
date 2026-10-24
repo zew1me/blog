@@ -28,40 +28,32 @@ const { title, description, pubDate, updatedDate, heroImage, tags, draft } = pos
 
 			<p class="meta">
 				<FormattedDate date={pubDate} format="long" />
-				{
-					updatedDate && (
-						<span>
-							· updated <FormattedDate date={updatedDate} format="long" />
-						</span>
-					)
-				}
+				{updatedDate && (
+					<span>
+						· updated <FormattedDate date={updatedDate} format="long" />
+					</span>
+				)}
 			</p>
 
-			{
-				tags.length > 0 && (
-					<ul class="tags" aria-label="Tags">
-						{tags.map((tag) => (
-							<li>
-								<a href={`/tags/${tag}/`}>{tag}</a>
-							</li>
-						))}
-					</ul>
-				)
-			}
+			{tags.length > 0 && (
+				<ul class="tags" aria-label="Tags">
+					{tags.map((tag) => (
+						<li>
+							<a href={`/tags/${tag}/`}>{tag}</a>
+						</li>
+					))}
+				</ul>
+			)}
 		</header>
 
-		{
-			heroImage && (
-				<figure class="hero">
-					<Image src={heroImage} alt="" widths={[640, 960, 1280]} loading="eager" />
-				</figure>
-			)
-		}
+		{heroImage && (
+			<figure class="hero">
+				<Image src={heroImage} alt="" widths={[640, 960, 1280]} loading="eager" />
+			</figure>
+		)}
 
-		{
-			/* data-pagefind-body scopes the search index to real post prose.
-		    Without it Pagefind would index nav, footer, and backlinks too. */
-		}
+		{/* data-pagefind-body scopes the search index to real post prose.
+		    Without it Pagefind would index nav, footer, and backlinks too. */}
 		<div class="prose" data-pagefind-body>
 			<slot />
 		</div>
